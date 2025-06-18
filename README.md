@@ -35,7 +35,7 @@ Define the form's structure in `src/modules/user-profile/model.ts`. This schema 
 
 ```typescript
 // src/modules/user-profile/model.ts
-import { FormModel } from 'react-form-builder-ts';
+import { FormModel } from '@dynamic_forms/react';
 
 const userProfileModel: FormModel = [
   {
@@ -89,7 +89,7 @@ Create a custom hook in `src/modules/user-profile/hooks.ts` to encapsulate the f
 
 ```typescript
 // src/modules/user-profile/hooks.ts
-import { useForm } from 'react-form-builder-ts';
+import { useForm } from '@dynamic_forms/react';
 import userProfileModel from './model';
 
 export function useUserProfileForm(initialValues: Record<string, any> = {}) {
@@ -117,7 +117,7 @@ Finally, create the main component in `src/modules/user-profile/index.tsx`. This
 ```typescript
 // src/modules/user-profile/index.tsx
 import React from 'react';
-import { FormRenderer, FormWrapper } from 'react-form-builder-ts';
+import { FormRenderer, FormWrapper } from '@dynamic_forms/react';
 import { useUserProfileForm } from './hooks';
 
 export function UserProfileForm() {

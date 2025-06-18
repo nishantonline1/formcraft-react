@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSections } from 'react-form-builder-ts';
-import type { UseFormReturn, ConfigField, FormValues, SectionGroup, FormModel } from 'react-form-builder-ts';
+import { useSections } from '@dynamic_forms/react';
+import type { UseFormReturn, ConfigField, FormValues, SectionGroup, FormModel } from '@dynamic_forms/react';
 
 // --- Re-usable Field Renderer ---
 

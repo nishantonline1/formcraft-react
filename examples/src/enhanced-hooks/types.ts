@@ -1,4 +1,4 @@
-import type { FieldProps } from 'react-form-builder-ts';
+import type { FieldProps } from '@dynamic_forms/react';
 
 /**
  * Section interface for grouping fields

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ConfigField, FormRenderer } from 'react-form-builder-ts';
+import { ConfigField, FormRenderer } from '@dynamic_forms/react';
 import type { SectionedFormModel, FormSection } from '../enhanced-hooks';
 import type { SectionedFormReturn } from '../enhanced-hooks/useSectionedForm';
 

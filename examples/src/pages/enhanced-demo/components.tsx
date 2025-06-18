@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormRenderer } from 'react-form-builder-ts';
+import { FormRenderer } from '@dynamic_forms/react';
 import { useEnhancedFormDemo, useSectionedFormDemo, useComparisonDemo } from './hooks';
 import { SectionedFormRenderer } from '../../components/SectionedFormRenderer';
 import { sectionedDemoModel } from './model';
@@ -158,7 +158,7 @@ const MigrationComparison: React.FC = () => {
         <div className="code-block">
           <h4>❌ Old Way</h4>
           <pre><code>
-{`import { useForm, buildFormConfig } from 'react-form-builder-ts';
+{`import { useForm, buildFormConfig } from '@dynamic_forms/react';
 
 const MyComponent = () => {
   const config = useMemo(

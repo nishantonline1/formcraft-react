@@ -11,9 +11,9 @@
     "serve": "vite --port 3000 --open"
   },
   "dependencies": {
+    "@dynamic_forms/react": "^0.0.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-form-builder-ts": "^0.0.2"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

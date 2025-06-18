@@ -1,5 +1,5 @@
-import { useForm } from 'react-form-builder-ts';
-import type { FormModel, FormValues, UseFormReturn } from 'react-form-builder-ts';
+import { useForm } from '@dynamic_forms/react';
+import type { FormModel, FormValues, UseFormReturn } from '@dynamic_forms/react';
 
 /**
  * Enhanced form options interface

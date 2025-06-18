@@ -9,7 +9,7 @@ const GettingStarted: React.FC<GettingStartedProps> = ({ onNavigate }) => {
   return (
     <div className="getting-started">
       <div className="hero-section">
-        <h1>🚀 Getting Started with React Form Builder</h1>
+        <h1>🚀 Getting Started with Dynamic Forms React</h1>
         <p className="hero-description">
           A powerful, type-safe form builder for React applications with support for 
           validation, dependencies, layouts, sections, and much more.
@@ -19,11 +19,11 @@ const GettingStarted: React.FC<GettingStartedProps> = ({ onNavigate }) => {
       <div className="installation-section">
         <h2>📦 Installation</h2>
         <div className="code-block">
-          <pre><code>npm install react-form-builder-ts</code></pre>
+          <pre><code>npm install @dynamic_forms/react</code></pre>
         </div>
         <p>Or with yarn:</p>
         <div className="code-block">
-          <pre><code>yarn add react-form-builder-ts</code></pre>
+          <pre><code>yarn add @dynamic_forms/react</code></pre>
         </div>
       </div>
 
@@ -34,7 +34,7 @@ const GettingStarted: React.FC<GettingStartedProps> = ({ onNavigate }) => {
           <p>Create a <code>model.ts</code> file that describes your form structure:</p>
           <div className="code-block">
             <pre><code>{`// model.ts
-import { FormModel } from 'react-form-builder-ts';
+import { FormModel } from '@dynamic_forms/react';
 
 export const userFormModel: FormModel = {
   name: { type: 'text', required: true, label: 'Full Name' },
@@ -50,7 +50,7 @@ export const userFormModel: FormModel = {
           <p>Create a <code>hooks.ts</code> file to set up the form hook with model and initial values:</p>
           <div className="code-block">
             <pre><code>{`// hooks.ts
-import { useForm } from 'react-form-builder-ts';
+import { useForm } from '@dynamic_forms/react';
 import { userFormModel } from './model';
 
 export const useUserForm = () => {
@@ -80,7 +80,7 @@ export const useUserForm = () => {
           <div className="code-block">
             <pre><code>{`// components.tsx
 import React from 'react';
-import { FormRenderer } from 'react-form-builder-ts';
+import { FormRenderer } from '@dynamic_forms/react';
 import { userFormModel } from './model';
 import { useUserForm } from './hooks';
 
@@ -288,21 +288,21 @@ export default MyForm;`}</code></pre>
           <div className="resource-card">
             <h3>🔧 API Reference</h3>
             <p>Complete documentation of all components, hooks, and types.</p>
-            <a href="https://github.com/your-username/react-form-builder-ts" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/nishantonline1/formcraft-react" target="_blank" rel="noopener noreferrer">
               View Documentation →
             </a>
           </div>
           <div className="resource-card">
             <h3>💡 Examples Repository</h3>
             <p>Browse the source code of all examples and learn from implementations.</p>
-            <a href="https://github.com/your-username/react-form-builder-ts/tree/main/examples" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/nishantonline1/formcraft-react/tree/main/examples" target="_blank" rel="noopener noreferrer">
               View Examples →
             </a>
           </div>
           <div className="resource-card">
             <h3>🐛 Issues & Support</h3>
             <p>Report bugs, request features, or get help from the community.</p>
-            <a href="https://github.com/your-username/react-form-builder-ts/issues" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/nishantonline1/formcraft-react/issues" target="_blank" rel="noopener noreferrer">
               Get Support →
             </a>
           </div>

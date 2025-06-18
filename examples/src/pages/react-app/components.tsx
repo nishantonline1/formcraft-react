@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormRenderer } from 'react-form-builder-ts';
+import { FormRenderer } from '@dynamic_forms/react';
 import { useEnhancedForm } from '../../enhanced-hooks';
 import { multiStepFormModel, initialMultiStepValues } from './model';
 import './ReactAppStyles.css';

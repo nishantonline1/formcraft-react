@@ -22,14 +22,14 @@ export type {
 } from './types';
 
 // Re-export commonly used types from main library
-export type { FormModel, FormConfig, ConfigField, FormValues, UseFormReturn } from 'react-form-builder-ts';
+export type { FormModel, FormConfig, ConfigField, FormValues, UseFormReturn } from '@dynamic_forms/react';
 
 /**
  * Migration guide:
  * 
  * OLD WAY:
  * ```typescript
- * import { useForm, buildFormConfig } from 'react-form-builder-ts';
+ * import { useForm, buildFormConfig } from '@dynamic_forms/react';
  * 
  * const config = useMemo(() => buildFormConfig(formModel), []);
  * const form = useForm(config, { initialValues: {...} });

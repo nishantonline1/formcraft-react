@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FormValues, UseFormReturn, FormConfig, ConfigField } from 'react-form-builder-ts';
+import type { FormValues, UseFormReturn, FormConfig, ConfigField } from '@dynamic_forms/react';
 import {
   useResponsiveForm,
   useComplexLayoutForm,

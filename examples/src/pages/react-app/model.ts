@@ -1,5 +1,5 @@
 // Using `any` as a workaround for a persistent build issue with FormModel import.
-// import type { FormModel } from 'react-form-builder-ts';
+// import type { FormModel } from '@dynamic_forms/react';
 type FormModel = any[];
 
 /**

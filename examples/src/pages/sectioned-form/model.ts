@@ -1,4 +1,4 @@
-import { FormModel, FieldSection } from 'react-form-builder-ts';
+import { FormModel, FieldSection } from '@dynamic_forms/react';
 
 /**
  * Section definitions for the sectioned form example

@@ -1,4 +1,4 @@
-import type { FormModel } from 'react-form-builder-ts';
+import type { FormModel } from '@dynamic_forms/react';
 import type { SectionedFormModel } from '../../enhanced-hooks';
 
 /**

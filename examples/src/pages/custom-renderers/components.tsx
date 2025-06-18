@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormRenderer } from 'react-form-builder-ts';
+import { FormRenderer } from '@dynamic_forms/react';
 import { useCustomRenderersForm } from './hooks';
 import './CustomRenderersStyles.css';
 

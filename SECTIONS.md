@@ -10,7 +10,7 @@ import {
   useSections,
   FormModel,
   FieldSection,
-} from 'react-form-builder-ts';
+} from '@dynamic_forms/react';
 
 // 1. Define your form model with section assignments
 const formModel: FormModel = [
@@ -112,7 +112,7 @@ const formModel: FormModel = [
 Define sections separately for better organization:
 
 ```typescript
-import { SectionedFormModel } from 'react-form-builder-ts';
+import { SectionedFormModel } from '@dynamic_forms/react';
 
 const sections: FieldSection[] = [
   {
@@ -402,7 +402,7 @@ function ConditionalSectionForm() {
 
 ```typescript
 import React from 'react';
-import { useForm, useSections, FormModel, FieldSection } from 'react-form-builder-ts';
+import { useForm, useSections, FormModel, FieldSection } from '@dynamic_forms/react';
 
 const registrationSections: FieldSection[] = [
   {

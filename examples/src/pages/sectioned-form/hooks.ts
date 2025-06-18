@@ -1,4 +1,4 @@
-import { useForm, useSections } from 'react-form-builder-ts';
+import { useForm, useSections } from '@dynamic_forms/react';
 import { formModel, sectionedModel } from './model';
 
 /**

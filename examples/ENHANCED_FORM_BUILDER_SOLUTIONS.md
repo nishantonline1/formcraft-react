@@ -24,13 +24,13 @@ Create an enhanced `useForm` hook that accepts either `FormModel` or `FormConfig
 ```typescript
 // src/hooks/useEnhancedForm.ts
 import { useMemo } from 'react';
-import { useForm, buildFormConfig } from 'react-form-builder-ts';
+import { useForm, buildFormConfig } from '@dynamic_forms/react';
 import type {
   FormModel,
   FormConfig,
   FormValues,
   UseFormReturn,
-} from 'react-form-builder-ts';
+} from '@dynamic_forms/react';
 
 /**
  * Type guard to check if input is FormModel or FormConfig
@@ -518,7 +518,7 @@ const form = useEnhancedForm(formModel, options);
 ### Before
 
 ```typescript
-import { useForm, buildFormConfig } from 'react-form-builder-ts';
+import { useForm, buildFormConfig } from '@dynamic_forms/react';
 
 const config = useMemo(() => buildFormConfig(formModel), []);
 const form = useForm(config, { initialValues: {...} });
@@ -528,7 +528,7 @@ const form = useForm(config, { initialValues: {...} });
 ### After
 
 ```typescript
-import { useEnhancedForm } from 'react-form-builder-ts';
+import { useEnhancedForm } from '@dynamic_forms/react';
 
 const form = useEnhancedForm(formModel, { initialValues: {...} });
 ```

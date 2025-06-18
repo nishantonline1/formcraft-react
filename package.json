@@ -1,22 +1,35 @@
 {
-  "name": "react-form-builder-ts",
+  "name": "@dynamic_forms/react",
   "version": "0.0.1",
+  "description": "A powerful and flexible form-building library for React.",
+  "keywords": [],
+  "homepage": "https://formbuilderns.netlify.app/",
+  "bugs": {
+    "url": "https://github.com/nishantonline1/formcraft-react/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishantonline1/formcraft-react.git"
+  },
+  "license": "ISC",
+  "author": "Nishant Singh <nishantonline1@gmail.com>",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types":   "./dist/index.d.ts",
-      "import":  "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
-  "author": "Nishant Singh <nishantonline1@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NowPurchase/form-builder.git"
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "directories": {
+    "example": "examples"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "test": "jest --passWithNoTests",
@@ -32,13 +45,6 @@
     "example:build": "cd examples && npm install && npm run build",
     "examples:serve": "cd examples && npm install && npm run serve"
   },
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "keywords": [],
-  "license": "ISC",
-  "description": "A powerful and flexible form-building library for React.",
   "dependencies": {
     "react": ">=16.8.0",
     "react-dom": "^19.1.0",
@@ -66,11 +72,5 @@
   "peerDependencies": {
     "react": ">=16.8.0"
   },
-  "directories": {
-    "example": "examples"
-  },
-  "bugs": {
-    "url": "https://github.com/NowPurchase/form-builder/issues"
-  },
-  "homepage": "https://github.com/NowPurchase/form-builder#readme"
+  "module": "./dist/index.js"
 }

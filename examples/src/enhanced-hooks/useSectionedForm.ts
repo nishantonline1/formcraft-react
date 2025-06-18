@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { useEnhancedForm, type EnhancedFormOptions } from './useEnhancedForm';
-import type { FormModel, ConfigField, UseFormReturn } from 'react-form-builder-ts';
+import type { FormModel, ConfigField, UseFormReturn } from '@dynamic_forms/react';
 import type { SectionedFormModel, SectionedFieldProps, FormSection, SectionProgress } from './types';
 
 /**

@@ -16,7 +16,7 @@ This is a development server for running and testing the Form Builder Library ex
 **Before (Old API):**
 
 ```typescript
-import { useForm, buildFormConfig } from 'react-form-builder-ts';
+import { useForm, buildFormConfig } from '@dynamic_forms/react';
 
 const config = useMemo(() => buildFormConfig(formModel), []);
 const form = useForm(config, { initialValues: {...} });
@@ -25,7 +25,7 @@ const form = useForm(config, { initialValues: {...} });
 **After (New API):**
 
 ```typescript
-import { useForm } from 'react-form-builder-ts';
+import { useForm } from '@dynamic_forms/react';
 // or import { useEnhancedForm } from './enhanced-hooks';
 
 const form = useForm(formModel, { initialValues: {...} });
@@ -188,7 +188,7 @@ The examples demonstrate the new **simplified Form Builder API**:
 1. **Direct FormModel usage**:
 
 ```typescript
-import { useForm } from 'react-form-builder-ts';
+import { useForm } from '@dynamic_forms/react';
 // or import { useEnhancedForm } from './enhanced-hooks';
 
 const form = useForm(formModel, {

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { UseFormReturn, SectionGroup, SectionProgress, FieldProps, FieldSection } from 'react-form-builder-ts';
+import type { UseFormReturn, SectionGroup, SectionProgress, FieldProps, FieldSection } from '@dynamic_forms/react';
 import { sections } from './model';
 
 /**

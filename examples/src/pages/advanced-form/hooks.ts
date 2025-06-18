@@ -1,4 +1,4 @@
-import { useForm } from 'react-form-builder-ts';
+import { useForm } from '@dynamic_forms/react';
 import { advancedFormModel } from './model';
 
 export const useAdvancedForm = () => {
