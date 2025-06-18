@@ -1,0 +1,30 @@
+/* Import common styles */
+@import '../enhanced-demo/EnhancedDemoStyles.css';
+
+.dependencies-form-example .info-area {
+  background-color: #f8f9fa;
+}
+
+.dependencies-form-example .dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.dependencies-form-example .status-section h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #34495e;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.dependencies-form-example .status-section p,
+.dependencies-form-example .status-section li {
+  margin: 0.5rem 0;
+}
+
+.dependencies-form-example .status-section ul {
+  padding-left: 20px;
+  margin-top: 0.5rem;
+} 

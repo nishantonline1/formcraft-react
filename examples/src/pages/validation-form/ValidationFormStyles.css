@@ -1,0 +1,46 @@
+/* Import common styles */
+@import '../enhanced-demo/EnhancedDemoStyles.css';
+
+.validation-form-example .validation-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e9ecef;
+}
+
+.validation-form-example .stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.validation-form-example .stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.validation-form-example .stat-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.validation-form-example .stat-value.success {
+  color: #28a745;
+}
+
+.validation-form-example .stat-value.warning {
+  color: #fd7e14;
+}
+
+.validation-form-example .stat-value.error {
+  color: #dc3545;
+}
+
+.validation-form-example .progress-bar-container {
+  height: 4px;
+  margin-top: 4px;
+} 

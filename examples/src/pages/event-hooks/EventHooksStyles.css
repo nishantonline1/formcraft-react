@@ -1,0 +1,81 @@
+/* Import common styles */
+@import '../enhanced-demo/EnhancedDemoStyles.css';
+
+.event-hooks-example .info-area {
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.event-hooks-example .analytics-dashboard h3,
+.event-hooks-example .event-stream h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #34495e;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.event-hooks-example .dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.event-hooks-example .stat-item {
+  background-color: #fff;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.event-hooks-example .event-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e9ecef;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.event-hooks-example .event-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #f1f3f5;
+}
+.event-hooks-example .event-item:last-child {
+  border-bottom: none;
+}
+
+.event-hooks-example .event-type-tag {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.event-hooks-example .event-type-tag.FORM {
+  background-color: #007bff;
+}
+.event-hooks-example .event-type-tag.FIELD {
+  background-color: #28a745;
+}
+.event-hooks-example .event-type-tag.VALIDATION {
+  background-color: #dc3545;
+}
+
+.event-hooks-example .event-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.event-hooks-example .event-time {
+  color: #6c757d;
+  font-size: 0.8rem;
+} 

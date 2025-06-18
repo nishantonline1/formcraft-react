@@ -1,0 +1,76 @@
+{
+  "name": "react-form-builder-ts",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types":   "./dist/index.d.ts",
+      "import":  "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "author": "Nishant Singh <nishantonline1@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NowPurchase/form-builder.git"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage",
+    "prepublishOnly": "npm run build",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "perf:test": "node -e \"const { quickPerformanceTest } = require('./dist/performance'); quickPerformanceTest().then(console.log).catch(console.error)\"",
+    "license-check": "license-checker --summary",
+    "clean": "rm -rf dist",
+    "examples:all": "echo 'All examples available in examples/ directory'",
+    "example:build": "cd examples && npm install && npm run build",
+    "examples:serve": "cd examples && npm install && npm run serve"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [],
+  "license": "ISC",
+  "description": "A powerful and flexible form-building library for React.",
+  "dependencies": {
+    "react": ">=16.8.0",
+    "react-dom": "^19.1.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.3",
+    "@types/react": "^19.1.8",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "jest": "^30.0.0",
+    "jest-environment-jsdom": "^30.0.0",
+    "prettier": "^3.5.3",
+    "ts-jest": "^29.4.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "bugs": {
+    "url": "https://github.com/NowPurchase/form-builder/issues"
+  },
+  "homepage": "https://github.com/NowPurchase/form-builder#readme"
+}

@@ -1,0 +1,1 @@
+export { buildFormConfig } from './buildFormConfig';

@@ -1,0 +1,38 @@
+# Dependencies
+node_modules
+
+# Build Output
+dist
+build
+
+# Package lock file
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
+
+# Environment Variables
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Editor Files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.idea
+*.tmproj
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Log Files
+*.log
+
+# Temporary Files
+*.tmp

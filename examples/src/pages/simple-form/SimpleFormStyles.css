@@ -1,0 +1,26 @@
+/* Uses the same modern layout as the enhanced demo */
+@import '../enhanced-demo/EnhancedDemoStyles.css';
+
+.simple-form-example .info-area {
+  background-color: #f8f9fa; /* A slightly different background for variety */
+}
+
+.simple-form-example .dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.simple-form-example .status-section h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #34495e;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.simple-form-example .status-section p {
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+} 
