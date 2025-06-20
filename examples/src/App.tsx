@@ -29,6 +29,7 @@ type ExampleKey = keyof typeof examples;
 
 const App: React.FC = () => {
   const [activeExample, setActiveExample] = useState<ExampleKey>('getting-started');
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const ActiveComponent = examples[activeExample].component;
   const hasNavigation = examples[activeExample].hasNavigation;
@@ -39,16 +40,31 @@ const App: React.FC = () => {
     }
   };
 
+  const handleMenuClick = (key: ExampleKey) => {
+    setActiveExample(key);
+    setSidebarOpen(false); // Close sidebar on selection
+  };
+
   return (
     <div className="app-container">
-      <nav className="sidebar">
-        <h2>Form Builder Examples</h2>
+      {!isSidebarOpen && (
+        <button className="sidebar-toggle" onClick={() => setSidebarOpen(!isSidebarOpen)}>
+          ☰
+        </button>
+      )}
+      <nav className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <h2>Form Builder Examples</h2>
+          <button className="close-sidebar" onClick={() => setSidebarOpen(false)}>
+            ×
+          </button>
+        </div>
         <ul>
           {Object.keys(examples).map(key => (
             <li
               key={key}
               className={activeExample === key ? 'active' : ''}
-              onClick={() => setActiveExample(key as ExampleKey)}
+              onClick={() => handleMenuClick(key as ExampleKey)}
             >
               {examples[key as ExampleKey].title}
             </li>
@@ -67,6 +83,7 @@ const App: React.FC = () => {
           )}
         </div>
       </main>
+      {isSidebarOpen && <div className="overlay" onClick={() => setSidebarOpen(false)}></div>}
     </div>
   );
 };

@@ -21,6 +21,9 @@ export function validateField(field: FieldProps | ConfigField, value: FormValue)
       if (max != null && value > max) {
         errs.push(`${field.label} must be ≤ ${max}.`);
       }
+      if (decimal_places && value.toString().split('.')[1]?.length > decimal_places) {
+        errs.push(`${field.label} must have at most ${decimal_places} decimal places.`);
+      }
     }
     if (pattern && typeof value === 'string' && !pattern.test(value)) {
       errs.push(`${field.label} is invalid format.`);
@@ -28,9 +31,7 @@ export function validateField(field: FieldProps | ConfigField, value: FormValue)
     if (custom && custom(value).length > 0) {
       errs.push(...custom(value));
     }
-    if (decimal_places && typeof value === 'number' && value.toString().split('.')[1]?.length > decimal_places) {
-      errs.push(`${field.label} must have at most ${decimal_places} decimal places.`);
-    }
+    
   }
 
   // Run plugin validation if this is a ConfigField

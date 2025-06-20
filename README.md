@@ -17,7 +17,25 @@ The **React Form Builder** is a powerful, schema-driven library for declarativel
 
 ---
 
-### 2. Getting Started: A Step-by-Step Guide
+### 2. Installation
+
+Install the package using your favorite package manager:
+
+**NPM**
+
+```bash
+npm install @dynamic_forms/react
+```
+
+**Yarn**
+
+```bash
+yarn add @dynamic_forms/react
+```
+
+---
+
+### 3. Getting Started: A Step-by-Step Guide
 
 This guide walks through creating a complete user profile form. We recommend organizing your form logic into modules, with a clear separation of concerns.
 
@@ -141,9 +159,9 @@ Now you can use the `UserProfileForm` component anywhere in your application.
 
 ---
 
-### 3. API Reference
+### 4. API Reference
 
-#### 3.1 `FormModel` & `FieldProps`
+#### 4.1 `FormModel` & `FieldProps`
 
 The `FormModel` is an array of `FieldProps` objects that defines the form schema.
 
@@ -187,7 +205,7 @@ The `dependencies` array connects field properties to the state of another field
 - `trigger`: An array of field `key`s that should trigger a reload of the options.
 - `loader`: A function that receives the entire form's `values` object and returns the new options.
 
-#### 3.2 `useForm(model, options?)`
+#### 4.2 `useForm(model, options?)`
 
 The core hook for managing form state. It now accepts the `FormModel` directly.
 
@@ -220,7 +238,7 @@ The core hook for managing form state. It now accepts the `FormModel` directly.
 | `handleSubmit()`      | `(onSubmit) => (e?) => Promise<void>`    | A wrapper for your submit handler that runs validation first and prevents submission if invalid.            |
 | `triggerValidation()` | `(fields: string[]) => Promise<boolean>` | Programmatically triggers validation for a subset of fields. Returns `true` if all are valid.               |
 
-#### 3.3 `FormRenderer`
+#### 4.3 `FormRenderer`
 
 A component that renders the form based on a `config` and `form` object.
 
@@ -231,7 +249,7 @@ A component that renders the form based on a `config` and `form` object.
 - `renderers`: An object to override default renderers by field `type` (e.g., `{ text: MyCustomTextInput }`).
 - `customRenderers`: An object to provide renderers for fields that have a `renderer` key in their schema (e.g., `{ myRenderer: MySpecialComponent }`).
 
-#### 3.4 Providers
+#### 4.4 Providers
 
 Wrap your application with these providers to enable their features.
 
@@ -242,7 +260,7 @@ Wrap your application with these providers to enable their features.
 - **`<FormWrapper>`**: A simple layout component.
   - Props: `title: string`, `loading?: boolean`.
 
-#### 3.5 Plugin System
+#### 4.5 Plugin System
 
 The library includes a plugin system to extend its core functionality.
 
@@ -257,7 +275,7 @@ Use `registerPlugin(plugin)` to add a plugin and `unregisterPlugin(name)` to rem
 
 ---
 
-### 4. Package Structure
+### 5. Package Structure
 
 The source code is organized as follows:
 
