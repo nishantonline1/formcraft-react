@@ -1,6 +1,6 @@
 {
   "name": "@dynamic_forms/react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A powerful and flexible form-building library for React.",
   "keywords": [],
   "homepage": "https://formbuilderns.netlify.app/",
@@ -31,7 +31,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build": "tsup",
     "test": "jest --passWithNoTests",
     "test:coverage": "jest --coverage",
     "prepublishOnly": "npm run build",
@@ -46,8 +46,6 @@
     "examples:serve": "cd examples && npm install && npm run serve"
   },
   "dependencies": {
-    "react": ">=16.8.0",
-    "react-dom": "^19.1.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
@@ -70,7 +68,8 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": ">=16.8.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "module": "./dist/index.js"
 }
