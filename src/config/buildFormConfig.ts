@@ -1,57 +1,55 @@
+import { applyConfigExtensions } from "../plugins";
 import { v4 as uuidv4 } from 'uuid';
-import { FormModel } from '../model';
-import { FormConfig, ConfigField } from '../types';
-import { applyConfigExtensions } from '../plugins';
+import { ConfigField, FormConfig, FormModel, FormValue, FormValues } from "../types";
 
-export function buildFormConfig(
-  model: FormModel,
-  flags: Record<string, boolean> = {},
-): FormConfig {
+// types you already have
+type Option = { value: FormValue; label: string };
+
+export function buildFormConfig(model: FormModel, flags: Record<string, boolean> = {}): FormConfig {
   const fields: ConfigField[] = [];
   const lookup: Record<string, ConfigField> = {};
 
-  function traverse(
-    items: FormModel,
-    parentPath = '',
-  ) {
-    items.forEach((field, _index) => {
-      // Skip by flag
-      if (field.flags) {
-        const flagKeys = Object.keys(field.flags);
-        if (flagKeys.some(k => !flags[k])) return;
+  function traverse(items: FormModel, parentPath = '') {
+    items.forEach((field) => {
+
+      const path = parentPath ? `${parentPath}.${field.key}` : field.key;
+      const id = uuidv4();
+
+      // ---- NORMALIZE OPTIONS ----
+      const rawOptions = (field as any).options as
+        | Option[]
+        | (() => Promise<Option[]>)
+        | undefined;
+
+      let options: Option[] | undefined;
+      let dynamicOptions = field.dynamicOptions;
+
+      if (typeof rawOptions === 'function') {
+        const loaderFn = rawOptions; // () => Promise<Option[]>
+        dynamicOptions = {
+          trigger: dynamicOptions?.trigger ?? [],
+          loader: async (_values: FormValues) => {
+            const res = await loaderFn();
+            return res as Option[];
+          },
+        };
+      } else {
+        options = rawOptions;
       }
 
-      const path = parentPath
-        ? `${parentPath}.${field.key}`
-        : field.key;
-
-      const id = uuidv4();
       const configField: ConfigField = {
         ...field,
         id,
         path,
-      };
-
-      // Apply dependencies hide/disable
-      if (field.dependencies) {
-        field.dependencies.forEach(_dep => {
-          // lazy: we'll process runtime in hook
-        });
-      }
+        options,
+        dynamicOptions,
+      } as ConfigField;
 
       fields.push(configField);
       lookup[path] = configField;
-
-      // Handle array items
-      if (field.type === 'array' && field.itemModel) {
-        traverse(field.itemModel, `${path}[0]`);
-      }
     });
   }
 
   traverse(model);
-  
-  // Apply plugin extensions to the config
-  const baseConfig = { fields, lookup };
-  return applyConfigExtensions(model, baseConfig);
+  return applyConfigExtensions(model, { fields, lookup });
 }

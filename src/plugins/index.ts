@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormModel } from '../model';
-import { FormConfig, ConfigField } from '../types';
+import { FormConfig, ConfigField, FormModel } from '../types';
 import { UseFormReturn } from '../hooks/useForm';
 
 /**

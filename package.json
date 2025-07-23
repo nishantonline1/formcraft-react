@@ -46,6 +46,7 @@
     "examples:serve": "cd examples && npm install && npm run serve"
   },
   "dependencies": {
+    "react-select": "^5.10.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
@@ -69,10 +70,10 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0",
     "@types/react": "*",
-    "@types/react-dom": "*"
+    "@types/react-dom": "*",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "module": "./dist/index.js"
 }

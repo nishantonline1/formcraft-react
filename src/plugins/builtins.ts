@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormPlugin } from './index';
-import { ConfigField } from '../types';
+import { ConfigField, DependencyRule } from '../types';
 
 /**
  * Email validation plugin

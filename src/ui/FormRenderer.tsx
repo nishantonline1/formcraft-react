@@ -2,23 +2,18 @@ import React from 'react';
 import { FormConfig, ConfigField, FormValue } from '../types';
 import { UseFormReturn } from '../hooks/useForm';
 import { getPluginRenderer } from '../plugins';
+import { DEFAULT_RENDERERS } from './renderers/renderer';
 
-// Default field renderer components
-import { TextInput } from './renderers/TextInput';
-import { NumberInput } from './renderers/NumberInput';
-import { Dropdown } from './renderers/Dropdown';
-import { DatePicker } from './renderers/DatePicker';
-import { ArrayFieldWrapper } from './renderers/ArrayFieldWrapper';
-import { CheckboxInput } from './renderers/CheckboxInput';
 
-export interface FieldRenderer {
-  (props: FieldRendererProps): React.JSX.Element;
-}
+
+
+// in FormRenderer.tsx
+export type FieldRenderer = React.FC<FieldRendererProps>;
 
 export interface FieldRendererProps {
   field: ConfigField;
   form: UseFormReturn;
-  value: unknown;
+  value: FormValue;                  // not unknown
   onChange: (value: FormValue) => void;
   onBlur: () => void;
   onFocus: () => void;
@@ -37,15 +32,6 @@ export interface FormRendererProps {
   style?: React.CSSProperties;
 }
 
-const DEFAULT_RENDERERS: Record<ConfigField['type'], FieldRenderer> = {
-  text: TextInput,
-  number: NumberInput,
-  select: Dropdown,
-  date: DatePicker,
-  array: ArrayFieldWrapper,
-  checkbox: CheckboxInput,
-};
-
 export function FormRenderer({
   config,
   form,
@@ -54,7 +40,8 @@ export function FormRenderer({
   className,
   style,
 }: FormRendererProps): React.JSX.Element {
-  const finalRenderers = { ...DEFAULT_RENDERERS, ...renderers };
+
+  const finalRenderers: Record<string, FieldRenderer> = { ...DEFAULT_RENDERERS, ...renderers };
 
   // Filter visible fields and sort by layout position
   const visibleFields = config.fields

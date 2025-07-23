@@ -1,0 +1,43 @@
+/* Default field styles */
+.customInputStyles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+
+.customInputStyles input {
+  min-width: 12rem;
+}
+
+.customInputStyles fieldset {
+  position: relative;
+  top: -1%;
+  border-color: #eee;
+}
+
+.customInputStyles fieldset legend {
+  display: none;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.labelStyles {
+  color: var(--secondaryTextColor);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.labelStyles .asterisks {
+  color: red;
+}
+
+.field-error {
+  color: red;
+  font-size: 0.75rem;
+}
