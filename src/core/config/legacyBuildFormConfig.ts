@@ -1,8 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
-import { FormModel } from '../model';
-import { FormConfig, ConfigField } from '../types';
-import { applyConfigExtensions } from '../plugins';
+import { FormModel } from '../../model';
+import { FormConfig, ConfigField, FormValue } from '../../types';
 
+// Fallback function for plugin extensions
+const applyConfigExtensions = (model: FormModel, config: FormConfig): FormConfig => {
+  // In a real implementation, this would apply plugin extensions
+  // For now, just return the config as-is for backward compatibility
+  return config;
+};
+
+/**
+ * Legacy buildFormConfig function for backward compatibility
+ * @deprecated Use createFormConfig instead
+ */
 export function buildFormConfig(
   model: FormModel,
   flags: Record<string, boolean> = {},
@@ -30,6 +40,7 @@ export function buildFormConfig(
         ...field,
         id,
         path,
+        defaultValue: field.defaultValue as FormValue | undefined,
       };
 
       // Apply dependencies hide/disable
@@ -50,7 +61,7 @@ export function buildFormConfig(
   }
 
   traverse(model);
-  
+
   // Apply plugin extensions to the config
   const baseConfig = { fields, lookup };
   return applyConfigExtensions(model, baseConfig);

@@ -1,10 +1,8 @@
-import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import React from 'react';
 import { FormModel } from '../model';
 import { FormConfig, ConfigField, FormValues, ValidationErrors, TouchedFields, FormValue } from '../types';
-import { buildFormConfig } from '../config';
-import { validateField } from '../utils/validation';
-import { evaluateAllDependencies, DependencyResolution } from '../utils/dependencies';
-import { trackEvent } from '../events/eventBus';
+import { DependencyResolution, evaluateAllDependencies } from '../core';
+import { useFormConfig, UseFormConfigOptions } from './useFormConfig';
 import { useAnalytics } from '../providers';
 
 export interface UseFormReturn {
@@ -49,26 +47,21 @@ export function useForm(
     flags?: Record<string, boolean>;
   }
 ): UseFormReturn {
-  // 1. Build the form configuration internally and memoize it.
-  const config = useMemo(
-    () => buildFormConfig(model, options?.flags),
-    [model, options?.flags]
-  );
+  // Use the new useFormConfig hook internally
+  const configOptions: UseFormConfigOptions = {
+    initialValues: options?.initialValues,
+    formId: options?.formId,
+    enableAnalytics: options?.enableAnalytics,
+    eventHooks: options?.eventHooks,
+    flags: options?.flags,
+    enableDependencies: true,
+    enableValidation: true,
+  };
 
-  // Initialize values
-  const init = options?.initialValues || {};
-  const [values, setValues] = useState<FormValues>(
-    config.fields.reduce((acc, f) => {
-      acc[f.path] = init[f.path] ?? '';
-      return acc;
-    }, {} as FormValues)
-  );
-  const [errors, setErrors] = useState<ValidationErrors>({});
-  const [touched, setTouched] = useState<TouchedFields>({});
-  const [dynamicOptions, setDynamicOptions] = useState<Map<string, { value: unknown; label: string }[]>>(new Map());
+  const configResult = useFormConfig(model, configOptions);
 
-  // Get analytics handler (optional)
-  let analyticsHandler: ((eventName: string, data: Record<string, unknown>) => void) | undefined;
+  // Get analytics handler for backward compatibility
+  let analyticsHandler: ((eventName: string, payload: Record<string, unknown>) => void) | undefined;
   try {
     if (options?.enableAnalytics !== false) {
       analyticsHandler = useAnalytics();
@@ -77,297 +70,43 @@ export function useForm(
     // Analytics provider not available, continue without analytics
   }
 
-  // Evaluate dependencies whenever values change
-  const dependencies = useMemo(() => 
-    evaluateAllDependencies(config.fields, values), 
-    [config.fields, values]
-  );
+  // Use the core evaluateAllDependencies for backward compatibility
+  const compatDependencies = React.useMemo(() => {
+    return evaluateAllDependencies(configResult.fields, configResult.values);
+  }, [configResult.fields, configResult.values]);
 
-  // Track previous dependency states to only emit events for changes
-  const prevDependenciesRef = useRef<Map<string, DependencyResolution>>(new Map());
+  // Map the useFormConfig return to match the exact useForm interface
+  const getEffectiveFieldCompat = (path: string): ConfigField | undefined => {
+    try {
+      return configResult.getEffectiveField(path);
+    } catch {
+      // Return undefined if field doesn't exist (backward compatibility)
+      return undefined;
+    }
+  };
 
-  // Helper functions for dependency resolution
-  const isFieldVisible = useCallback((path: string): boolean => {
-    const resolution = dependencies.get(path);
-    return resolution?.isVisible ?? true;
-  }, [dependencies]);
-
-  const isFieldDisabled = useCallback((path: string): boolean => {
-    const resolution = dependencies.get(path);
-    return resolution?.isDisabled ?? false;
-  }, [dependencies]);
-
-  const getEffectiveField = useCallback((path: string): ConfigField | undefined => {
-    const field = config.lookup[path];
-    if (!field) return undefined;
-    
-    const resolution = dependencies.get(path);
-    if (!resolution) return field;
-
-    return {
-      ...field,
-      ...resolution.overrides,
-      hidden: !resolution.isVisible,
-      disabled: resolution.isDisabled,
-    };
-  }, [config.lookup, dependencies]);
-
-  // Validate one field, update errors state, emit events
-  const runValidation = useCallback((field: ConfigField, val: FormValue) => {
-    const fieldErrors = validateField(field, val);
-    setErrors(prev => ({ ...prev, [field.path]: fieldErrors }));
-    
-    // Emit validation event
-    trackEvent('form:validation', {
-      fieldPath: field.path,
-      fieldKey: field.key,
-      value: val,
-      errors: fieldErrors,
-      isValid: fieldErrors.length === 0,
-    }, analyticsHandler);
-
-    return fieldErrors;
-  }, [analyticsHandler]);
-
-  const handleChange = useCallback((path: string, value: FormValue) => {
-    const field = config.lookup[path];
-    if (!field) return;
-
-    const oldValue = values[path];
-    
-    setValues(v => ({ ...v, [path]: value }));
-    
-    // Run validation
-    runValidation(field, value);
-    
-    // Emit field change event
-    trackEvent('field:change', {
-      fieldPath: path,
-      fieldKey: field.key,
-      oldValue,
-      newValue: value,
-      formValues: { ...values, [path]: value },
-    }, analyticsHandler);
-    
-    // Call event hook if provided
-    options?.eventHooks?.onFieldChange?.(path, value);
-  }, [config.lookup, runValidation, values, analyticsHandler]);
-
-  const handleBlur = useCallback((path: string) => {
-    const field = config.lookup[path];
-    if (!field) return;
-
-    setTouched(t => ({ ...t, [path]: true }));
-    
-    // Emit field blur event
-    trackEvent('field:blur', {
-      fieldPath: path,
-      fieldKey: field.key,
-      value: values[path],
-      formValues: values,
-    }, analyticsHandler);
-    
-    // Call event hook if provided
-    options?.eventHooks?.onFieldBlur?.(path);
-  }, [config.lookup, values, analyticsHandler]);
-
-  const handleFocus = useCallback((path: string) => {
-    const field = config.lookup[path];
-    if (!field) return;
-    
-    // Emit field focus event
-    trackEvent('field:focus', {
-      fieldPath: path,
-      fieldKey: field.key,
-      value: values[path],
-      formValues: values,
-    }, analyticsHandler);
-  }, [config.lookup, values, analyticsHandler]);
-
-  const addArrayItem = useCallback((path: string) => {
-    setValues(v => {
-      const currentValue = v[path];
-      const arr = Array.isArray(currentValue) ? [...(currentValue as unknown[])] : [];
-      return { ...v, [path]: [...arr, {}] };
-    });
-  }, []);
-
-  const removeArrayItem = useCallback((path: string, index: number) => {
-    setValues(v => {
-      const currentValue = v[path];
-      const arr = Array.isArray(currentValue) ? [...(currentValue as unknown[])] : [];
-      arr.splice(index, 1);
-      return { ...v, [path]: arr };
-    });
-    setErrors(e => {
-      const copy = { ...e };
-      delete copy[`${path}[${index}]`];
-      return copy;
-    });
-  }, []);
-
-  const triggerValidation = useCallback(async (fieldsToValidate: string[]): Promise<boolean> => {
-    const validationPromises = fieldsToValidate.map(path => {
-      const field = config.lookup[path];
-      if (field) {
-        return validateField(field, values[path]);
-      }
-      return [];
-    });
-    
-    const results = await Promise.all(validationPromises);
-    const newErrors: ValidationErrors = {};
-    let allValid = true;
-
-    fieldsToValidate.forEach((path, index) => {
-      if (results[index].length > 0) {
-        newErrors[path] = results[index];
-        allValid = false;
-      }
-    });
-
-    setErrors(prev => ({ ...prev, ...newErrors }));
-    return allValid;
-  }, [config.lookup, values]);
-
-  const handleSubmit = useCallback(
-    (onSubmit: (values: FormValues) => Promise<unknown>) =>
-      async (e?: React.SyntheticEvent) => {
-        e?.preventDefault();
-        
-        // Run validation for all visible fields using effective field configuration
-        const allErrors: ValidationErrors = {};
-        config.fields.forEach(field => {
-          if (isFieldVisible(field.path)) {
-            const effectiveField = getEffectiveField(field.path) || field;
-            const errs = validateField(effectiveField, values[field.path]);
-            if (errs.length) {
-              allErrors[field.path] = errs;
-            }
-          }
-        });
-        setErrors(allErrors);
-
-        const isValid = Object.keys(allErrors).length === 0;
-        
-        // Emit form submit event
-        trackEvent('form:submit', {
-          formId: options?.formId,
-          values,
-          isValid,
-          errors: isValid ? undefined : allErrors,
-        }, analyticsHandler);
-
-        // If any errors, abort
-        if (!isValid) {
-          return;
-        }
-        
-        // Call the actual submit handler
-        try {
-          await onSubmit(values);
-          options?.eventHooks?.onFormSubmit?.(values);
-        } catch (err) {
-          console.error('Submission handler failed', err);
-        }
-      },
-    [config, values, options?.formId, analyticsHandler, getEffectiveField, isFieldVisible, options?.eventHooks]
-  );
-
-  // Emit form init event on mount
-  useEffect(() => {
-    trackEvent('form:init', {
-      formId: options?.formId,
-      initialValues: values,
-      fieldCount: config.fields.length,
-    }, analyticsHandler);
-    
-    // Call init event hook for each field
-    config.fields.forEach(field => {
-      options?.eventHooks?.onInit?.(field);
-    });
-  }, []); // Only emit once on mount
-
-  // Emit dependency resolution events when dependencies change
-  useEffect(() => {
-    const prevDeps = prevDependenciesRef.current;
-    
-    dependencies.forEach((resolution, path) => {
-      const prevResolution = prevDeps.get(path);
-      
-      // Only emit event if this is a new dependency or if the resolution changed
-      if (!prevResolution || 
-          prevResolution.isVisible !== resolution.isVisible ||
-          prevResolution.isDisabled !== resolution.isDisabled) {
-        
-        trackEvent('dependency:resolved', {
-          fieldPath: resolution.field.path,
-          fieldKey: resolution.field.key,
-          isVisible: resolution.isVisible,
-          isDisabled: resolution.isDisabled,
-          dependsOn: resolution.dependsOn,
-        }, analyticsHandler);
-      }
-    });
-    
-    // Update the previous dependencies reference
-    prevDependenciesRef.current = new Map(dependencies);
-  }, [dependencies, analyticsHandler]);
-
-  // Load dynamic options when trigger values change
-  useEffect(() => {
-    const loadDynamicOptions = async () => {
-      const allFields = config.fields;
-      const fieldsWithDynamicOptions = allFields.filter(f => f.dynamicOptions);
-
-      const triggerMap: Record<string, string[]> = fieldsWithDynamicOptions.reduce((acc: Record<string, string[]>, field) => {
-        field.dynamicOptions!.trigger.forEach(key => {
-          if (!acc[key]) acc[key] = [];
-          acc[key].push(field.path);
-        });
-        return acc;
-      }, {});
-      
-      const changedKeys = Object.keys(values).filter(key => values[key] !== (options?.initialValues || {})[key]);
-      const fieldsToUpdate = new Set<string>();
-      
-      changedKeys.forEach(key => {
-        if (triggerMap[key]) {
-          triggerMap[key].forEach(path => fieldsToUpdate.add(path));
-        }
-      });
-      
-      if (fieldsToUpdate.size > 0) {
-        fieldsToUpdate.forEach(async path => {
-          const field = config.lookup[path];
-          if (field?.dynamicOptions) {
-            const newOpts = await field.dynamicOptions.loader(values);
-            setDynamicOptions(prev => new Map(prev).set(path, newOpts));
-          }
-        });
-      }
-    };
-
-    loadDynamicOptions();
-  }, [values, config, options?.initialValues, analyticsHandler]);
+  // Wrap triggerValidation to match the old signature (requires fieldsToValidate parameter)
+  const triggerValidationCompat = async (fieldsToValidate: string[]): Promise<boolean> => {
+    return configResult.triggerValidation(fieldsToValidate);
+  };
 
   return {
-    config,
-    values,
-    errors,
-    touched,
-    dependencies,
-    dynamicOptions,
-    isFieldVisible,
-    isFieldDisabled,
-    getEffectiveField,
-    handleChange,
-    handleBlur,
-    handleFocus,
-    addArrayItem,
-    removeArrayItem,
-    handleSubmit,
-    triggerValidation,
+    config: configResult.config,
+    values: configResult.values,
+    errors: configResult.errors,
+    touched: configResult.touched,
+    dependencies: compatDependencies,
+    dynamicOptions: configResult.dynamicOptions,
+    isFieldVisible: configResult.isFieldVisible,
+    isFieldDisabled: configResult.isFieldDisabled,
+    getEffectiveField: getEffectiveFieldCompat,
+    handleChange: configResult.handleChange,
+    handleBlur: configResult.handleBlur,
+    handleFocus: configResult.handleFocus,
+    addArrayItem: configResult.addArrayItem,
+    removeArrayItem: configResult.removeArrayItem,
+    handleSubmit: configResult.handleSubmit,
+    triggerValidation: triggerValidationCompat,
     trackEvent: analyticsHandler,
     onInit: options?.eventHooks?.onInit,
     onFieldChange: options?.eventHooks?.onFieldChange,

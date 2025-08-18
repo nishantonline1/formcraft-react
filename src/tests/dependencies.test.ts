@@ -4,7 +4,7 @@ import {
   isFieldVisible, 
   isFieldDisabled, 
   getEffectiveFieldProps 
-} from '../utils/dependencies';
+} from '../core';
 import { ConfigField, FormValues } from '../types';
 
 describe('Dependency Resolution System', () => {
@@ -76,7 +76,7 @@ describe('Dependency Resolution System', () => {
       const result = evaluateFieldDependencies(mockFields[1], values, mockFields);
 
       expect(result.isVisible).toBe(true);
-      expect(result.field.path).toBe('field2');
+      expect(result.field).toBe('field2');
     });
 
     it('should handle disabled dependencies', () => {
@@ -84,7 +84,7 @@ describe('Dependency Resolution System', () => {
       const result = evaluateFieldDependencies(mockFields[2], values, mockFields);
 
       expect(result.isDisabled).toBe(true);
-      expect(result.field.path).toBe('field3');
+      expect(result.field).toBe('field3');
     });
 
     it('should handle validator overrides', () => {

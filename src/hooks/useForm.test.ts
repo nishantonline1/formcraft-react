@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { useForm } from './useForm';
 import { FormModel } from '../model';
 import { registerPlugin, clearPlugins, FormPlugin } from '../plugins';

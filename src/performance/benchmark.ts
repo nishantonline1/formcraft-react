@@ -1,5 +1,5 @@
 import { FormModel } from '../model';
-import { buildFormConfig } from '../config';
+import { buildFormConfig } from '../core';
 
 export interface PerformanceMeasurement {
   operation: string;

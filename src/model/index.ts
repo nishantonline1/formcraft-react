@@ -36,6 +36,7 @@ export interface FieldProps {
   type: FieldType;
   renderer?: string; // Key for a custom renderer component
   label: string;
+  defaultValue?: unknown; // Default value for the field
   validators?: {
     required?: boolean;
     min?: number;
