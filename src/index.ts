@@ -64,3 +64,11 @@ export * from './events';
 
 // Performance utilities
 export * from './performance';
+
+// UI components
+export * from './ui';
+export { FormRenderer } from './ui/FormRenderer';
+export type { FieldRenderer, FieldRendererProps, FormRendererProps } from './ui/FormRenderer';
+
+// Provider components  
+export * from './providers';

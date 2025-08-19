@@ -57,12 +57,14 @@ This will:
 
 The dev server provides an interactive interface to explore all Form Builder examples:
 
+- **🚀 Getting Started**: Introduction and basic usage
+- **📖 API Documentation**: Comprehensive API examples with interactive demos
+- **⚙️ Core Config Only**: Configuration-first approach with custom UI
+- **🏗️ New Architecture + UI**: Using the new architecture with built-in components
 - **⭐ Enhanced Demo**: Showcases the new simplified API
-- **Getting Started**: Simple Form, Validation Form
-- **Advanced Features**: Field Dependencies, Event Hooks
-- **UI Customization**: Custom Renderers
-- **Integration**: React App Example
-- **Patterns**: Form Hooks, Sectioned Forms
+- **Advanced Features**: Field Dependencies, Event Hooks, Validation
+- **UI Customization**: Custom Renderers, Layouts
+- **Integration**: React App Example, Form Hooks, Sectioned Forms
 
 ## 📁 Project Structure
 
@@ -79,13 +81,23 @@ examples/
 │   │   └── index.ts            # Exports and types
 │   ├── components/           # Shared components
 │   └── pages/               # Example implementations
+│       ├── api-examples/    # 📖 Comprehensive API documentation
+│       │   ├── createFormConfig/  # Configuration generation examples
+│       │   ├── useFormConfig/     # Enhanced React hook examples
+│       │   └── index.tsx         # API documentation hub
+│       ├── getting-started/ # 🚀 Introduction and basic usage
+│       ├── core-config-only/# ⚙️ Configuration-first approach
+│       ├── new-architecture-ui/ # 🏗️ New architecture with UI
 │       ├── simple-form/     # Basic form example
 │       ├── validation-form/ # Validation example
 │       ├── dependencies/    # Field dependencies
 │       ├── event-hooks/     # Event system demo
 │       ├── form-hooks/      # Custom hooks
 │       ├── enhanced-demo/   # ⭐ New API showcase
+│       ├── sectioned-form/  # Multi-section forms
+│       ├── advanced-form/   # Complex form features
 │       └── layouts/         # Layout examples
+├── API_DOCUMENTATION.md     # Comprehensive API guide
 ├── index.html               # HTML template
 ├── package.json            # Dependencies and scripts
 ├── tsconfig.json           # TypeScript configuration
@@ -198,7 +210,6 @@ const form = useForm(formModel, {
 ```
 
 2. **No more manual config building**:
-
    - `buildFormConfig` is called internally
    - Config is memoized automatically
    - Available as `form.config`

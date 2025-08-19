@@ -166,6 +166,32 @@ export default MyForm;`}</code></pre>
           <div className="path-step">
             <div className="step-number">1</div>
             <div className="step-content">
+              <h3>Core Configuration Only</h3>
+              <p>Learn the new architecture with core configuration without UI components. Perfect for custom UI frameworks.</p>
+                             <div className="step-actions">
+                 <button className="nav-button" onClick={() => onNavigate?.('core-config-only')}>
+                   View Core Config →
+                 </button>
+               </div>
+            </div>
+          </div>
+
+          <div className="path-step">
+            <div className="step-number">2</div>
+            <div className="step-content">
+              <h3>New Architecture + UI</h3>
+              <p>Explore the refactored library with useFormConfig and optional UI components for better modularity.</p>
+                             <div className="step-actions">
+                 <button className="nav-button" onClick={() => onNavigate?.('new-architecture-ui')}>
+                   View New Architecture →
+                 </button>
+               </div>
+            </div>
+          </div>
+
+          <div className="path-step">
+            <div className="step-number">3</div>
+            <div className="step-content">
               <h3>Start with Simple Form</h3>
               <p>Learn the basics with our Simple Form example. Understand form models, basic field types, and form rendering.</p>
                              <div className="step-actions">
@@ -177,7 +203,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">2</div>
+            <div className="step-number">4</div>
             <div className="step-content">
               <h3>Add Validation</h3>
               <p>Explore form validation with built-in rules, custom validators, and error handling.</p>
@@ -190,7 +216,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">3</div>
+            <div className="step-number">5</div>
             <div className="step-content">
               <h3>Field Dependencies</h3>
               <p>Learn how to create dynamic forms where fields depend on each other's values.</p>
@@ -203,7 +229,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">4</div>
+            <div className="step-number">6</div>
             <div className="step-content">
               <h3>Event Hooks</h3>
               <p>Master form lifecycle events and custom event handling.</p>
@@ -216,7 +242,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">5</div>
+            <div className="step-number">7</div>
             <div className="step-content">
               <h3>Custom Hooks</h3>
               <p>Discover powerful form management hooks for advanced use cases.</p>
@@ -229,7 +255,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">6</div>
+            <div className="step-number">8</div>
             <div className="step-content">
               <h3>Layouts & Grid</h3>
               <p>Create beautiful, responsive forms with grid-based layouts.</p>
@@ -242,7 +268,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">7</div>
+            <div className="step-number">9</div>
             <div className="step-content">
               <h3>Form Sections</h3>
               <p>Organize complex forms into manageable, collapsible sections.</p>
@@ -255,7 +281,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">8</div>
+            <div className="step-number">10</div>
             <div className="step-content">
               <h3>Advanced Patterns</h3>
               <p>Master complex forms with wizards, nested arrays, and advanced layouts.</p>
@@ -268,7 +294,7 @@ export default MyForm;`}</code></pre>
           </div>
 
           <div className="path-step">
-            <div className="step-number">9</div>
+            <div className="step-number">11</div>
             <div className="step-content">
               <h3>Enhanced Demo</h3>
               <p>See everything in action with our comprehensive enhanced demo.</p>
