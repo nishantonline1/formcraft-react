@@ -1,13 +1,7 @@
 import { FieldProps } from '../../model';
 import { FormValue, ConfigField, FormValues, ValidationErrors } from '../../types';
 import { ValidationRule } from '../types';
-
-// Fallback function for plugin validation
-const runPluginValidation = (_field: ConfigField, _value: FormValue): string[] => {
-  // In a real implementation, this would run plugin validation
-  // For now, just return empty array for backward compatibility
-  return [];
-};
+import { runPluginValidation } from '../../plugins';
 
 /**
  * Enhanced validation interface for core module
@@ -86,6 +80,7 @@ export function validateField(field: FieldProps | ConfigField, value: FormValue)
       if (Array.isArray(customErrors)) {
         errors.push(...customErrors);
       }
+      // Non-array returns are ignored (as per test expectation)
     } catch (error) {
       console.error(`Custom validation error for field "${field.label}":`, error);
       errors.push(`${field.label} validation failed.`);
