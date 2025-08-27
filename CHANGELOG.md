@@ -5,7 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.0.3] - 2025-08-27
+
+### Fixed
+
+- **Plugin Validation Integration**: Fixed plugin validation not being included in form errors
+- **Custom Validator Handling**: Fixed custom validator returning non-array values not being properly ignored
+- **Core Config Example**: Fixed `ReferenceError: form is not defined` in Advanced Features demo
+- **Type Safety**: Improved TypeScript type safety across validation and plugin systems
+
+### Enhanced
+
+- **Plugin System**: Plugin validation now properly integrates with form validation pipeline
+- **Validation System**: Enhanced custom validator handling with proper error type checking
+- **Examples**: Improved Core Config Only example with better error handling and type safety
+
+## [0.0.2] - Previous Version
 
 ### Added
 

@@ -281,7 +281,7 @@ describe('Core Validation Module', () => {
     });
 
     it('should handle custom validator returning non-array', () => {
-      const customValidator = jest.fn(() => ['single error']);
+      const customValidator = jest.fn(() => 'single error' as any);
 
       const field: FieldProps = {
         key: 'custom',
