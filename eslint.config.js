@@ -20,6 +20,16 @@ export default [
         JSX: 'readonly',
         console: 'readonly',
         process: 'readonly',
+        globalThis: 'readonly',
+        // DOM globals
+        HTMLElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLSelectElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
+        Element: 'readonly',
+        Document: 'readonly',
+        Window: 'readonly',
+        Event: 'readonly',
       },
     },
     plugins: {

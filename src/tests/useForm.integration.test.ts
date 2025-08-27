@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { useForm } from '../hooks/useForm';
 import { FormModel } from '../model';
 import { formEventBus } from '../events/eventBus';
@@ -95,7 +95,7 @@ describe('useForm Integration with Dependencies and Events', () => {
       // Check specific field dependency resolution
       const conditionalResolution = result.current.dependencies.get('conditionalField');
       expect(conditionalResolution?.isVisible).toBe(false);
-      expect(conditionalResolution?.field.key).toBe('conditionalField');
+      expect(conditionalResolution?.field).toBe('conditionalField');
     });
 
     it('should only validate visible fields on submit', async () => {

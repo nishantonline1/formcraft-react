@@ -1,0 +1,263 @@
+.create-form-config-example {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.create-form-config-example h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.create-form-config-example p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.example-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.controls-panel {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.controls-panel h2 {
+  margin-top: 0;
+  color: #495057;
+}
+
+.control-group {
+  margin-bottom: 25px;
+}
+
+.control-group h3 {
+  color: #6c757d;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+}
+
+.control {
+  margin-bottom: 15px;
+}
+
+.control label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+.control input,
+.control select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.control input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+.results-panel {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.results-panel h2 {
+  background: #007bff;
+  color: white;
+  margin: 0;
+  padding: 15px 20px;
+  font-size: 18px;
+}
+
+.config-results {
+  padding: 20px;
+}
+
+.result-section {
+  margin-bottom: 30px;
+}
+
+.result-section h3 {
+  color: #495057;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.fields-list {
+  display: grid;
+  gap: 10px;
+}
+
+.field-item {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
+}
+
+.field-item strong {
+  display: block;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.field-details {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.field-details span {
+  font-size: 12px;
+  color: #6c757d;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.dependencies-list {
+  display: grid;
+  gap: 10px;
+}
+
+.dependency-item {
+  background: #fff3cd;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 4px solid #ffc107;
+}
+
+.dependency-item strong {
+  display: block;
+  color: #856404;
+  margin-bottom: 8px;
+}
+
+.dependency-details {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.dependency-details span {
+  font-size: 12px;
+  color: #856404;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #ffeaa7;
+}
+
+.validation-info,
+.state-info {
+  background: #d1ecf1;
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 4px solid #17a2b8;
+}
+
+.validation-info p,
+.state-info p {
+  margin: 0 0 10px 0;
+  color: #0c5460;
+  font-weight: 500;
+}
+
+.validation-info ul,
+.state-info ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #0c5460;
+}
+
+.code-example {
+  background: #2d3748;
+  color: #e2e8f0;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  overflow-x: auto;
+}
+
+.code-example h2 {
+  color: #e2e8f0;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.code-example pre {
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.code-example code {
+  color: #e2e8f0;
+}
+
+.use-cases {
+  margin-top: 40px;
+}
+
+.use-cases h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.use-case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.use-case {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.use-case h3 {
+  color: #007bff;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.use-case p {
+  color: #6c757d;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .example-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .use-case-grid {
+    grid-template-columns: 1fr;
+  }
+}

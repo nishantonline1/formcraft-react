@@ -33,5 +33,6 @@
     "types": ["vite/client"]
   },
   "include": ["src"],
+  "exclude": ["src/pages/api-examples"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

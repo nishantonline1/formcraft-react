@@ -10,25 +10,82 @@ import SectionedFormExample from './pages/sectioned-form';
 import AdvancedFormExample from './pages/advanced-form';
 import GettingStarted from './pages/getting-started';
 
+import { CoreConfigOnlyWrapper as CoreConfigOnly } from './pages/core-config-only';
+import { NewArchitectureUIWrapper as NewArchitectureUI } from './pages/new-architecture-ui';
+// import { ApiExamplesIndex } from './pages/api-examples';
+
 import './App.css';
 
 const examples = {
-  'getting-started': { component: GettingStarted, title: '🚀 Getting Started', hasNavigation: true },
-  'enhanced-demo': { component: EnhancedDemo, title: '⭐ Enhanced Demo', hasNavigation: false },
-  'simple-form': { component: SimpleForm, title: 'Simple Form', hasNavigation: false },
-  'validation-form': { component: ValidationForm, title: 'Validation Form', hasNavigation: false },
-  'dependencies': { component: Dependencies, title: 'Dependencies', hasNavigation: false },
-  'event-hooks': { component: EventHooks, title: 'Event Hooks', hasNavigation: false },
-  'form-hooks': { component: FormHooks, title: 'Form Hooks', hasNavigation: false },
-  'layouts': { component: Layouts, title: 'Layouts', hasNavigation: false },
-  'sectioned-form': { component: SectionedFormExample, title: 'Sectioned Form', hasNavigation: false },
-  'advanced-form': { component: AdvancedFormExample, title: 'Advanced Form', hasNavigation: false },
+  'getting-started': {
+    component: GettingStarted,
+    title: '🚀 Getting Started',
+    hasNavigation: true,
+  },
+  // 'api-examples': {
+  //   component: ApiExamplesIndex,
+  //   title: '📖 API Documentation',
+  //   hasNavigation: false,
+  // },
+  'core-config-only': {
+    component: CoreConfigOnly,
+    title: '⚙️ Core Config Only',
+    hasNavigation: false,
+  },
+  'new-architecture-ui': {
+    component: NewArchitectureUI,
+    title: '🏗️ New Architecture + UI',
+    hasNavigation: false,
+  },
+  'enhanced-demo': {
+    component: EnhancedDemo,
+    title: '⭐ Enhanced Demo',
+    hasNavigation: false,
+  },
+  'simple-form': {
+    component: SimpleForm,
+    title: 'Simple Form',
+    hasNavigation: false,
+  },
+  'validation-form': {
+    component: ValidationForm,
+    title: 'Validation Form',
+    hasNavigation: false,
+  },
+  dependencies: {
+    component: Dependencies,
+    title: 'Dependencies',
+    hasNavigation: false,
+  },
+  'event-hooks': {
+    component: EventHooks,
+    title: 'Event Hooks',
+    hasNavigation: false,
+  },
+  'form-hooks': {
+    component: FormHooks,
+    title: 'Form Hooks',
+    hasNavigation: false,
+  },
+  layouts: { component: Layouts, title: 'Layouts', hasNavigation: false },
+  'sectioned-form': {
+    component: SectionedFormExample,
+    title: 'Sectioned Form',
+    hasNavigation: false,
+  },
+  'advanced-form': {
+    component: AdvancedFormExample,
+    title: 'Advanced Form',
+    hasNavigation: false,
+  },
 };
 
 type ExampleKey = keyof typeof examples;
 
 const App: React.FC = () => {
-  const [activeExample, setActiveExample] = useState<ExampleKey>('getting-started');
+  const [activeExample, setActiveExample] =
+    useState<ExampleKey>('getting-started');
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const ActiveComponent = examples[activeExample].component;
   const hasNavigation = examples[activeExample].hasNavigation;
@@ -39,16 +96,37 @@ const App: React.FC = () => {
     }
   };
 
+  const handleMenuClick = (key: ExampleKey) => {
+    setActiveExample(key);
+    setSidebarOpen(false); // Close sidebar on selection
+  };
+
   return (
     <div className="app-container">
-      <nav className="sidebar">
-        <h2>Form Builder Examples</h2>
+      {!isSidebarOpen && (
+        <button
+          className="sidebar-toggle"
+          onClick={() => setSidebarOpen(!isSidebarOpen)}
+        >
+          ☰
+        </button>
+      )}
+      <nav className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <h2>Form Builder Examples</h2>
+          <button
+            className="close-sidebar"
+            onClick={() => setSidebarOpen(false)}
+          >
+            ×
+          </button>
+        </div>
         <ul>
-          {Object.keys(examples).map(key => (
+          {Object.keys(examples).map((key) => (
             <li
               key={key}
               className={activeExample === key ? 'active' : ''}
-              onClick={() => setActiveExample(key as ExampleKey)}
+              onClick={() => handleMenuClick(key as ExampleKey)}
             >
               {examples[key as ExampleKey].title}
             </li>
@@ -67,8 +145,11 @@ const App: React.FC = () => {
           )}
         </div>
       </main>
+      {isSidebarOpen && (
+        <div className="overlay" onClick={() => setSidebarOpen(false)}></div>
+      )}
     </div>
   );
 };
 
-export default App; 
+export default App;

@@ -1,7 +1,7 @@
 {
   "name": "@dynamic_forms/react",
-  "version": "0.0.1",
-  "description": "A powerful and flexible form-building library for React.",
+  "version": "0.0.3",
+  "description": "A configuration-first form library for React 17+ with optional UI components and tree-shaking optimization.",
   "keywords": [],
   "homepage": "https://formbuilderns.netlify.app/",
   "bugs": {
@@ -19,19 +19,33 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./ui": {
+      "types": "./dist/ui/ui.d.ts",
+      "import": "./dist/ui/ui.js",
+      "require": "./dist/ui/ui.cjs"
+    },
+    "./full": {
+      "types": "./dist/full/full.d.ts",
+      "import": "./dist/full/full.js",
+      "require": "./dist/full/full.cjs"
     }
   },
   "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "directories": {
     "example": "examples"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "MIGRATION_GUIDE.md",
+    "CHANGELOG.md",
+    "API_REFERENCE.md"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build": "tsup",
     "test": "jest --passWithNoTests",
     "test:coverage": "jest --coverage",
     "prepublishOnly": "npm run build",
@@ -46,18 +60,18 @@
     "examples:serve": "cd examples && npm install && npm run serve"
   },
   "dependencies": {
-    "react": ">=16.8.0",
-    "react-dom": "^19.1.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.3",
-    "@types/react": "^19.1.8",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^8.34.1",
     "@typescript-eslint/parser": "^8.34.1",
     "eslint": "^9.29.0",
@@ -65,12 +79,30 @@
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",
     "prettier": "^3.5.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "ts-jest": "^29.4.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": ">=16.8.0"
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
   },
-  "module": "./dist/index.js"
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "@types/react": {
+      "optional": true
+    },
+    "@types/react-dom": {
+      "optional": true
+    }
+  }
 }

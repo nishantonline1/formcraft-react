@@ -296,11 +296,13 @@
   }
 
   .hero-section h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    line-height: 1.2;
   }
 
   .hero-description {
     font-size: 1.1rem;
+    max-width: 90%;
   }
 
   .getting-started h2 {
@@ -311,12 +313,14 @@
   .resources-grid,
   .tips-list {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .path-step {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-bottom: 1rem;
   }
 
   .path-step::before {
@@ -335,17 +339,31 @@
   }
 
   .code-block pre {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    word-break: break-all;
   }
 }
 
 @media (max-width: 480px) {
+  .getting-started {
+    padding: 1rem 0.5rem;
+  }
+
   .hero-section h1 {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
   }
 
   .getting-started h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+  }
+
+  .getting-started h3 {
+    font-size: 1.3rem;
   }
 
   .step,

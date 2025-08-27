@@ -25,6 +25,7 @@ export interface ConfigField extends FieldProps {
 
 /** 
  * The flattened, lookupable form configuration. 
+ * Note: Enhanced version available in core module
  */
 export interface FormConfig {
   fields: ConfigField[];
