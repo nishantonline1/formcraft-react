@@ -1,7 +1,7 @@
 /**
  * Describes each form-field's schema.
  */
-export type FieldType = 'text'|'number'|'select'|'date'|'array'|'checkbox';
+export type FieldType = 'text'|'number'|'select'|'date'|'array'|'checkbox'|'radio';
 
 /**
  * Section configuration for grouping fields
