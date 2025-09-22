@@ -37,7 +37,7 @@ export interface FormRendererProps {
   style?: React.CSSProperties;
 }
 
-const DEFAULT_RENDERERS: Record<ConfigField['type'], FieldRenderer> = {
+const DEFAULT_RENDERERS: Partial<Record<ConfigField['type'], FieldRenderer>> = {
   text: TextInput,
   number: NumberInput,
   select: Dropdown,
