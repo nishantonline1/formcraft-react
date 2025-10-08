@@ -44,13 +44,11 @@ describe('Backward Compatibility Integration Tests', () => {
       type: 'text',
       label: 'Address',
       hidden: true,
-      dependencies: [
-        {
-          field: 'showAddress',
-          condition: (value) => value === true,
-          overrides: { hidden: false, validators: { required: true } },
-        },
-      ],
+      dependencies: {
+        fields: ['showAddress'],
+        condition: (watchedValues) => watchedValues.showAddress === true,
+        overrides: { hidden: false, validators: { required: true } },
+      },
     },
   ];
 

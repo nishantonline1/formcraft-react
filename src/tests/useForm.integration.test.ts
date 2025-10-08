@@ -19,13 +19,11 @@ describe('useForm Integration with Dependencies and Events', () => {
       type: 'text',
       label: 'Conditional Field',
       hidden: true,
-      dependencies: [
-        {
-          field: 'showConditional',
-          condition: (value) => value === 'yes',
-          overrides: { hidden: false, validators: { required: true } }
-        }
-      ],
+      dependencies: {
+        fields: ['showConditional'],
+        condition: (watchedValues) => watchedValues.showConditional === 'yes',
+        overrides: { hidden: false, validators: { required: true } }
+      },
     },
     {
       key: 'enableField',
@@ -36,13 +34,11 @@ describe('useForm Integration with Dependencies and Events', () => {
       key: 'enabledField',
       type: 'text',
       label: 'Enabled Field',
-      dependencies: [
-        {
-          field: 'enableField',
-          condition: (value) => value === 'disable',
-          overrides: { disabled: true }
-        }
-      ],
+      dependencies: {
+        fields: ['enableField'],
+        condition: (watchedValues) => watchedValues.enableField === 'disable',
+        overrides: { disabled: true }
+      },
     },
   ];
 
@@ -326,26 +322,22 @@ describe('useForm Integration with Dependencies and Events', () => {
           type: 'select',
           label: 'Level 2',
           hidden: true,
-          dependencies: [
-            {
-              field: 'level1',
-              condition: (value) => value === 'show',
-              overrides: { hidden: false }
-            }
-          ],
+          dependencies: {
+            fields: ['level1'],
+            condition: (watchedValues) => watchedValues.level1 === 'show',
+            overrides: { hidden: false }
+          },
         },
         {
           key: 'level3',
           type: 'text',
           label: 'Level 3',
           hidden: true,
-          dependencies: [
-            {
-              field: 'level2',
-              condition: (value) => value === 'enable',
-              overrides: { hidden: false, validators: { required: true } }
-            }
-          ],
+          dependencies: {
+            fields: ['level2'],
+            condition: (watchedValues) => watchedValues.level2 === 'enable',
+            overrides: { hidden: false, validators: { required: true } }
+          },
         },
       ];
 

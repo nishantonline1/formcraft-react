@@ -6,7 +6,7 @@ dist
 build
 
 # Package lock file
-package-lock.json
+# package-lock.json  # Commented out - needed for GitHub Actions caching
 npm-shrinkwrap.json
 yarn.lock
 

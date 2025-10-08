@@ -19,12 +19,18 @@ export function evaluateFieldDependencies(
   values: FormValues,
   allFields: ConfigField[]
 ): DependencyResolution {
+
   let isVisible = !field.hidden;
   let isDisabled = !!field.disabled;
   let overrides: Partial<FieldProps> = {};
-  const dependsOn = field.dependencies?.map(d => d.field) || [];
+  
+  // Collect all fields this field depends on
+  const dependsOn: string[] = [];
+  if (field.dependencies && field.dependencies.fields && Array.isArray(field.dependencies.fields)) {
+    dependsOn.push(...field.dependencies.fields);
+  }
 
-  if (!field.dependencies || field.dependencies.length === 0) {
+  if (!field.dependencies) {
     return {
       field: field.path,
       isVisible,
@@ -37,40 +43,52 @@ export function evaluateFieldDependencies(
   // Create field lookup for efficient access
   const fieldLookup = new Map(allFields.map(f => [f.key, f]));
 
-  // Process each dependency
-  for (const dependency of field.dependencies) {
-    const dependentField = fieldLookup.get(dependency.field);
-    if (!dependentField) {
-      console.warn(`Dependency field "${dependency.field}" not found for field "${field.key}"`);
-      continue;
-    }
+  // Process the dependency
+  const dependency = field.dependencies;
+  try {
+    // Check if dependency has valid fields array
+    if (!dependency.fields || !Array.isArray(dependency.fields) || dependency.fields.length === 0) {
+      console.warn(`Invalid dependency configuration for field "${field.key}": must specify 'fields' array`);
+    } else {
+      const watchedValues: Record<string, unknown> = {};
+      let allFieldsExist = true;
 
-    const dependentValue = values[dependentField.path];
-    
-    try {
-      // Evaluate the condition
-      const conditionMet = dependency.condition(dependentValue);
-      
-      if (conditionMet) {
-        // Apply overrides
-        const depOverrides = dependency.overrides;
-        
-        // Handle visibility
-        if (depOverrides.hidden !== undefined) {
-          isVisible = !depOverrides.hidden;
+      // Collect values for all watched fields
+      for (const fieldKey of dependency.fields) {
+        const dependentField = fieldLookup.get(fieldKey);
+        if (!dependentField) {
+          console.warn(`Dependency field "${fieldKey}" not found for field "${field.key}"`);
+          allFieldsExist = false;
+          break;
         }
-        
-        // Handle disabled state
-        if (depOverrides.disabled !== undefined) {
-          isDisabled = depOverrides.disabled;
-        }
-        
-        // Collect other overrides
-        overrides = { ...overrides, ...depOverrides };
+        watchedValues[fieldKey] = values[dependentField.path];
       }
-    } catch (error) {
-      console.error(`Error evaluating dependency condition for field "${field.key}":`, error);
+
+      if (allFieldsExist) {
+        // Evaluate the condition
+        const conditionMet = dependency.condition(watchedValues, values);
+
+        if (conditionMet) {
+          // Apply overrides
+          const depOverrides = dependency.overrides;
+
+          // Handle visibility
+          if (depOverrides.hidden !== undefined) {
+            isVisible = !depOverrides.hidden;
+          }
+
+          // Handle disabled state
+          if (depOverrides.disabled !== undefined) {
+            isDisabled = depOverrides.disabled;
+          }
+
+          // Collect other overrides
+          overrides = { ...overrides, ...depOverrides };
+        }
+      }
     }
+  } catch (error) {
+    console.error(`Error evaluating dependency condition for field "${field.key}":`, error);
   }
 
   return {
@@ -130,9 +148,9 @@ function topologicalSort(fields: ConfigField[]): ConfigField[] {
     visiting.add(field.key);
 
     // Visit all dependencies first
-    if (field.dependencies) {
-      for (const dep of field.dependencies) {
-        const depField = fieldMap.get(dep.field);
+    if (field.dependencies && field.dependencies.fields && Array.isArray(field.dependencies.fields)) {
+      for (const fieldKey of field.dependencies.fields) {
+        const depField = fieldMap.get(fieldKey);
         if (depField) {
           visit(depField);
         }
@@ -221,9 +239,9 @@ export function buildDependencyGraph(fields: ConfigField[]): Map<string, string[
   
   // Build dependency relationships
   for (const field of fields) {
-    if (field.dependencies) {
-      for (const dep of field.dependencies) {
-        const dependentField = fields.find(f => f.key === dep.field);
+    if (field.dependencies && field.dependencies.fields && Array.isArray(field.dependencies.fields)) {
+      for (const fieldKey of field.dependencies.fields) {
+        const dependentField = fields.find(f => f.key === fieldKey);
         if (dependentField) {
           const dependents = graph.get(dependentField.path) || [];
           dependents.push(field.path);
@@ -254,13 +272,8 @@ export function getDependentFields(
   }
   
   for (const field of fields) {
-    if (field.dependencies) {
-      for (const dep of field.dependencies) {
-        if (dep.field === targetField.key) {
-          dependentFields.push(field);
-          break;
-        }
-      }
+    if (field.dependencies && field.dependencies.fields && Array.isArray(field.dependencies.fields) && field.dependencies.fields.includes(targetField.key)) {
+      dependentFields.push(field);
     }
   }
   
@@ -290,9 +303,9 @@ export function detectCircularDependencies(fields: ConfigField[]): string[] {
 
     visiting.add(field.key);
 
-    if (field.dependencies) {
-      for (const dep of field.dependencies) {
-        const depField = fieldMap.get(dep.field);
+    if (field.dependencies && field.dependencies.fields && Array.isArray(field.dependencies.fields)) {
+      for (const fieldKey of field.dependencies.fields) {
+        const depField = fieldMap.get(fieldKey);
         if (depField && visit(depField)) {
           circularFields.push(field.path);
         }

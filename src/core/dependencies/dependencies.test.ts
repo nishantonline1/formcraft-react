@@ -77,13 +77,11 @@ describe('Core Dependencies Module', () => {
       });
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'dependent',
-            condition: (value) => value === 'show',
-            overrides: { hidden: false },
-          },
-        ],
+        dependencies: {
+          fields: ['dependent'],
+          condition: (watchedValues) => watchedValues.dependent === 'show',
+          overrides: { hidden: false },
+        },
       });
 
       const allFields = [field, dependentField];
@@ -104,13 +102,11 @@ describe('Core Dependencies Module', () => {
       });
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'dependent',
-            condition: (value) => value === 'disable',
-            overrides: { disabled: true, hidden: false },
-          },
-        ],
+        dependencies: {
+          fields: ['dependent'],
+          condition: (watchedValues) => watchedValues.dependent === 'disable',
+          overrides: { disabled: true, hidden: false },
+        },
       });
 
       const allFields = [field, dependentField];
@@ -127,13 +123,11 @@ describe('Core Dependencies Module', () => {
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'nonexistent',
-            condition: () => true,
-            overrides: {},
-          },
-        ],
+        dependencies: {
+          fields: ['nonexistent'],
+          condition: () => true,
+          overrides: {},
+        },
       });
 
       const allFields = [field];
@@ -159,15 +153,13 @@ describe('Core Dependencies Module', () => {
       });
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'dependent',
-            condition: () => {
-              throw new Error('Condition error');
-            },
-            overrides: {},
+        dependencies: {
+          fields: ['dependent'],
+          condition: () => {
+            throw new Error('Condition error');
           },
-        ],
+          overrides: {},
+        },
       });
 
       const allFields = [field, dependentField];
@@ -186,18 +178,15 @@ describe('Core Dependencies Module', () => {
       const triggerField2 = createMockFieldWithId('3', 'trigger2');
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'trigger1',
-            condition: (value) => value === 'show',
-            overrides: { hidden: false },
+        dependencies: {
+          fields: ['trigger1', 'trigger2'],
+          condition: (watchedValues) => {
+            const showCondition = watchedValues.trigger1 === 'show';
+            const disableCondition = watchedValues.trigger2 === 'disable';
+            return showCondition || disableCondition;
           },
-          {
-            field: 'trigger2',
-            condition: (value) => value === 'disable',
-            overrides: { disabled: true },
-          },
-        ],
+          overrides: { hidden: false, disabled: true },
+        },
         hidden: true,
         disabled: false,
       });
@@ -216,18 +205,16 @@ describe('Core Dependencies Module', () => {
       const triggerField = createMockFieldWithId('2', 'trigger');
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'trigger',
-            condition: (value) => {
-              if (typeof value === 'string') {
-                return value.length > 3 && value.includes('test');
-              }
-              return false;
-            },
-            overrides: { hidden: false, label: 'Complex Field' },
+        dependencies: {
+          fields: ['trigger'],
+          condition: (watchedValues) => {
+            if (typeof watchedValues.trigger === 'string') {
+              return watchedValues.trigger.length > 3 && watchedValues.trigger.includes('test');
+            }
+            return false;
           },
-        ],
+          overrides: { hidden: false, label: 'Complex Field' },
+        },
         hidden: true,
         label: 'Original Field',
       });
@@ -249,13 +236,11 @@ describe('Core Dependencies Module', () => {
       const arrayField = createMockFieldWithId('2', 'arrayField');
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'arrayField',
-            condition: (value) => Array.isArray(value) && value.length > 0,
-            overrides: { hidden: false },
-          },
-        ],
+        dependencies: {
+          fields: ['arrayField'],
+          condition: (watchedValues) => Array.isArray(watchedValues.arrayField) && watchedValues.arrayField.length > 0,
+          overrides: { hidden: false },
+        },
         hidden: true,
       });
 
@@ -278,15 +263,13 @@ describe('Core Dependencies Module', () => {
       const objectField = createMockFieldWithId('2', 'objectField');
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'objectField',
-            condition: (value) => {
-              return typeof value === 'object' && value !== null && 'enabled' in value && value.enabled === true;
-            },
-            overrides: { disabled: false },
+        dependencies: {
+          fields: ['objectField'],
+          condition: (watchedValues) => {
+            return typeof watchedValues.objectField === 'object' && watchedValues.objectField !== null && 'enabled' in watchedValues.objectField && watchedValues.objectField.enabled === true;
           },
-        ],
+          overrides: { disabled: false },
+        },
         disabled: true,
       });
 
@@ -314,13 +297,11 @@ describe('Core Dependencies Module', () => {
         path: 'field2',
         key: 'field2',
         label: 'Field 2',
-        dependencies: [
-          {
-            field: 'field1',
-            condition: (value) => value === 'show',
-            overrides: { hidden: false },
-          },
-        ],
+        dependencies: {
+          fields: ['field1'],
+          condition: (watchedValues) => watchedValues.field1 === 'show',
+          overrides: { hidden: false },
+        },
       });
 
       const fields = [field1, field2];
@@ -364,17 +345,15 @@ describe('Core Dependencies Module', () => {
       });
 
       const field = createMockField({
-        dependencies: [
-          {
-            field: 'dependent',
-            condition: (value) => value === 'modify',
-            overrides: {
-              disabled: true,
-              defaultValue: 'new default',
-              label: 'Modified Label'
-            },
+        dependencies: {
+          fields: ['dependent'],
+          condition: (watchedValues) => watchedValues.dependent === 'modify',
+          overrides: {
+            disabled: true,
+            defaultValue: 'new default',
+            label: 'Modified Label'
           },
-        ],
+        },
       });
 
       const allFields = [field, dependentField];
@@ -395,13 +374,11 @@ describe('Core Dependencies Module', () => {
         id: '2',
         path: 'field2',
         key: 'field2',
-        dependencies: [
-          {
-            field: 'field1',
-            condition: () => true,
-            overrides: {},
-          },
-        ],
+        dependencies: {
+          fields: ['field1'],
+          condition: () => true,
+          overrides: {},
+        },
       });
 
       const fields = [field1, field2];
@@ -419,13 +396,11 @@ describe('Core Dependencies Module', () => {
         id: '2',
         path: 'field2',
         key: 'field2',
-        dependencies: [
-          {
-            field: 'field1',
-            condition: () => true,
-            overrides: {},
-          },
-        ],
+        dependencies: {
+          fields: ['field1'],
+          condition: () => true,
+          overrides: {},
+        },
       });
 
       const fields = [field1, field2];
@@ -445,26 +420,22 @@ describe('Core Dependencies Module', () => {
   describe('detectCircularDependencies', () => {
     it('should detect circular dependencies', () => {
       const field1 = createMockField({
-        dependencies: [
-          {
-            field: 'field2',
-            condition: () => true,
-            overrides: {},
-          },
-        ],
+        dependencies: {
+          fields: ['field2'],
+          condition: () => true,
+          overrides: {},
+        },
       });
 
       const field2 = createMockField({
         id: '2',
         path: 'field2',
         key: 'field2',
-        dependencies: [
-          {
-            field: 'field1',
-            condition: () => true,
-            overrides: {},
-          },
-        ],
+        dependencies: {
+          fields: ['field1'],
+          condition: () => true,
+          overrides: {},
+        },
       });
 
       const fields = [field1, field2];
@@ -480,13 +451,11 @@ describe('Core Dependencies Module', () => {
         id: '2',
         path: 'field2',
         key: 'field2',
-        dependencies: [
-          {
-            field: 'field1',
-            condition: () => true,
-            overrides: {},
-          },
-        ],
+        dependencies: {
+          fields: ['field1'],
+          condition: () => true,
+          overrides: {},
+        },
       });
 
       const fields = [field1, field2];
@@ -531,6 +500,409 @@ describe('Core Dependencies Module', () => {
       expect(queries.getFieldVisibility('nonexistent', values)).toBe(false);
       expect(queries.getFieldDisabled('nonexistent', values)).toBe(false);
       expect(queries.getEffectiveField('nonexistent', values)).toBe(null);
+    });
+  });
+
+  describe('Multi-Field Dependencies', () => {
+    describe('evaluateFieldDependencies with multi-field dependencies', () => {
+      it('should handle multi-field AND logic', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['fieldA', 'fieldB', 'fieldC'],
+            condition: (watchedValues) => {
+              return Object.values(watchedValues).every(value => value === true);
+            },
+            overrides: { hidden: false }
+          },
+          hidden: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'fieldA'),
+          createMockFieldWithId('3', 'fieldB'),
+          createMockFieldWithId('4', 'fieldC')
+        ];
+
+        // All fields true - should show
+        let values: FormValues = { fieldA: true, fieldB: true, fieldC: true };
+        let result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(true);
+        expect(result.dependsOn).toEqual(['fieldA', 'fieldB', 'fieldC']);
+
+        // One field false - should hide
+        values = { fieldA: true, fieldB: false, fieldC: true };
+        result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(false);
+      });
+
+      it('should handle multi-field OR logic', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['fieldA', 'fieldB', 'fieldC'],
+            condition: (watchedValues) => {
+              return Object.values(watchedValues).some(value => value === true);
+            },
+            overrides: { hidden: false }
+          },
+          hidden: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'fieldA'),
+          createMockFieldWithId('3', 'fieldB'),
+          createMockFieldWithId('4', 'fieldC')
+        ];
+
+        // One field true - should show
+        let values: FormValues = { fieldA: false, fieldB: true, fieldC: false };
+        let result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(true);
+
+        // All fields false - should hide
+        values = { fieldA: false, fieldB: false, fieldC: false };
+        result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(false);
+      });
+
+      it('should handle complex multi-field conditions', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['userRole', 'subscription', 'betaProgram'],
+            condition: (watchedValues, _formValues) => {
+              const isAdmin = watchedValues.userRole === 'admin';
+              const hasPremium = watchedValues.subscription === 'premium';
+              const isBeta = watchedValues.betaProgram === true;
+              
+              return isAdmin && (hasPremium || isBeta);
+            },
+            overrides: { hidden: false, label: 'Admin Feature' }
+          },
+          hidden: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'userRole'),
+          createMockFieldWithId('3', 'subscription'),
+          createMockFieldWithId('4', 'betaProgram')
+        ];
+
+        // Admin with premium - should show
+        let values: FormValues = { 
+          userRole: 'admin', 
+          subscription: 'premium', 
+          betaProgram: false 
+        };
+        let result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(true);
+        expect(result.overrides.label).toBe('Admin Feature');
+
+        // Admin with beta - should show
+        values = { 
+          userRole: 'admin', 
+          subscription: 'basic', 
+          betaProgram: true 
+        };
+        result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(true);
+
+        // Non-admin - should hide
+        values = { 
+          userRole: 'user', 
+          subscription: 'premium', 
+          betaProgram: true 
+        };
+        result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(false);
+      });
+
+      it('should handle mixed single and multi-field dependencies', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['singleField', 'fieldA', 'fieldB'],
+            condition: (watchedValues) => {
+              const showCondition = watchedValues.singleField === 'show';
+              const disableCondition = watchedValues.fieldA === true && watchedValues.fieldB === true;
+              return showCondition || disableCondition;
+            },
+            overrides: { hidden: false, disabled: false }
+          },
+          hidden: true,
+          disabled: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'singleField'),
+          createMockFieldWithId('3', 'fieldA'),
+          createMockFieldWithId('4', 'fieldB')
+        ];
+
+        // Both conditions met
+        let values: FormValues = { 
+          singleField: 'show', 
+          fieldA: true, 
+          fieldB: true 
+        };
+        let result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(true);
+        expect(result.isDisabled).toBe(false);
+        expect(result.dependsOn).toEqual(['singleField', 'fieldA', 'fieldB']);
+
+        // Only single field condition met
+        values = { 
+          singleField: 'show', 
+          fieldA: false, 
+          fieldB: true 
+        };
+        result = evaluateFieldDependencies(field, values, allFields);
+        expect(result.isVisible).toBe(true);
+        expect(result.isDisabled).toBe(false); // With single dependency, all overrides are applied when condition is met
+      });
+
+      it('should handle missing fields in multi-field dependencies gracefully', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['existingField', 'missingField'],
+            condition: (watchedValues) => {
+              return watchedValues.existingField === true;
+            },
+            overrides: { hidden: false }
+          },
+          hidden: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'existingField')
+        ];
+
+        const values: FormValues = { existingField: true };
+        const result = evaluateFieldDependencies(field, values, allFields);
+        
+        // Should not apply overrides because missing field prevents condition evaluation
+        expect(result.isVisible).toBe(false);
+      });
+
+      it('should handle errors in multi-field condition functions', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['fieldA', 'fieldB'],
+            condition: () => {
+              throw new Error('Condition error');
+            },
+            overrides: { hidden: false }
+          },
+          hidden: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'fieldA'),
+          createMockFieldWithId('3', 'fieldB')
+        ];
+
+        const values: FormValues = { fieldA: true, fieldB: true };
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+        
+        const result = evaluateFieldDependencies(field, values, allFields);
+        
+        expect(result.isVisible).toBe(false); // Should remain hidden due to error
+        expect(consoleSpy).toHaveBeenCalledWith(
+          expect.stringContaining('Error evaluating dependency condition'),
+          expect.any(Error)
+        );
+        
+        consoleSpy.mockRestore();
+      });
+    });
+
+    describe('buildDependencyGraph with multi-field dependencies', () => {
+      it('should build correct graph for multi-field dependencies', () => {
+        const field1 = createMockFieldWithId('1', 'field1');
+        const field2 = createMockFieldWithId('2', 'field2');
+        const field3 = createMockFieldWithId('3', 'field3');
+        const dependentField = createMockFieldWithId('4', 'dependent', {
+          dependencies: {
+            fields: ['field1', 'field2', 'field3'],
+            condition: () => true,
+            overrides: {}
+          }
+        });
+
+        const fields = [field1, field2, field3, dependentField];
+        const graph = buildDependencyGraph(fields);
+
+        expect(graph.get('field1')).toContain('dependent');
+        expect(graph.get('field2')).toContain('dependent');
+        expect(graph.get('field3')).toContain('dependent');
+        expect(graph.get('dependent')).toEqual([]);
+      });
+
+      it('should handle mixed single and multi-field dependencies in graph', () => {
+        const field1 = createMockFieldWithId('1', 'field1');
+        const field2 = createMockFieldWithId('2', 'field2');
+        const field3 = createMockFieldWithId('3', 'field3');
+        const dependentField = createMockFieldWithId('4', 'dependent', {
+          dependencies: {
+            fields: ['field1', 'field2', 'field3'],
+            condition: () => true,
+            overrides: {}
+          }
+        });
+
+        const fields = [field1, field2, field3, dependentField];
+        const graph = buildDependencyGraph(fields);
+
+        expect(graph.get('field1')).toContain('dependent');
+        expect(graph.get('field2')).toContain('dependent');
+        expect(graph.get('field3')).toContain('dependent');
+      });
+    });
+
+    describe('getDependentFields with multi-field dependencies', () => {
+      it('should find dependent fields for multi-field dependencies', () => {
+        const field1 = createMockFieldWithId('1', 'field1');
+        const field2 = createMockFieldWithId('2', 'field2');
+        const dependentField = createMockFieldWithId('3', 'dependent', {
+          dependencies: {
+            fields: ['field1', 'field2'],
+            condition: () => true,
+            overrides: {}
+          }
+        });
+
+        const fields = [field1, field2, dependentField];
+        
+        const dependents1 = getDependentFields('field1', fields);
+        const dependents2 = getDependentFields('field2', fields);
+        
+        expect(dependents1).toContain(dependentField);
+        expect(dependents2).toContain(dependentField);
+      });
+    });
+
+    describe('detectCircularDependencies with multi-field dependencies', () => {
+      it('should detect circular dependencies involving multi-field dependencies', () => {
+        const field1 = createMockFieldWithId('1', 'field1', {
+          dependencies: {
+            fields: ['field2', 'field3'],
+            condition: () => true,
+            overrides: {}
+          }
+        });
+        const field2 = createMockFieldWithId('2', 'field2', {
+          dependencies: {
+            fields: ['field1'],
+            condition: () => true,
+            overrides: {}
+          }
+        });
+        const field3 = createMockFieldWithId('3', 'field3');
+
+        const fields = [field1, field2, field3];
+        const circular = detectCircularDependencies(fields);
+        
+        expect(circular).toContain('field1');
+        expect(circular).toContain('field2');
+      });
+    });
+
+    describe('Backward Compatibility', () => {
+      it('should maintain backward compatibility with legacy single-field dependencies using old condition signature', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['trigger'],
+            condition: (watchedValues) => {
+              // New condition function signature: condition(watchedValues) -> boolean
+              return watchedValues.trigger === 'show';
+            },
+            overrides: { hidden: false }
+          },
+          hidden: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'trigger')
+        ];
+
+        const values: FormValues = { trigger: 'show' };
+        const result = evaluateFieldDependencies(field, values, allFields);
+        
+        expect(result.isVisible).toBe(true);
+        expect(result.dependsOn).toEqual(['trigger']);
+      });
+
+      it('should support new condition signature for single-field dependencies', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            fields: ['trigger'],
+            condition: (watchedValues) => {
+              // New condition function signature: condition(watchedValues) -> boolean
+              return watchedValues.trigger === 'show';
+            },
+            overrides: { hidden: false }
+          },
+          hidden: true
+        });
+
+        const allFields = [
+          field,
+          createMockFieldWithId('2', 'trigger')
+        ];
+
+        const values: FormValues = { trigger: 'show' };
+        const result = evaluateFieldDependencies(field, values, allFields);
+        
+        expect(result.isVisible).toBe(true);
+        expect(result.dependsOn).toEqual(['trigger']);
+      });
+
+      it('should handle invalid dependency configurations gracefully', () => {
+        const field = createMockField({
+          key: 'result',
+          path: 'result',
+          dependencies: {
+            // Neither field nor fields specified
+            fields: [], // Empty fields array to test invalid config
+            condition: () => true,
+            overrides: { hidden: false }
+          },
+          hidden: true
+        });
+
+        const allFields = [field];
+        const values: FormValues = {};
+        const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+        
+        const result = evaluateFieldDependencies(field, values, allFields);
+        
+        expect(result.isVisible).toBe(false); // Should remain hidden
+        expect(consoleSpy).toHaveBeenCalledWith(
+          expect.stringContaining('Invalid dependency configuration')
+        );
+        
+        consoleSpy.mockRestore();
+      });
     });
   });
 });
