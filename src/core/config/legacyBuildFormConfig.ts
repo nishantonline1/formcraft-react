@@ -43,13 +43,7 @@ export function buildFormConfig(
         defaultValue: field.defaultValue as FormValue | undefined,
       };
 
-      // Apply dependencies hide/disable
-      if (field.dependencies) {
-        field.dependencies.forEach(_dep => {
-          // lazy: we'll process runtime in hook
-        });
-      }
-
+      // Dependencies are processed at runtime in the hook
       fields.push(configField);
       lookup[path] = configField;
 

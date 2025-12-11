@@ -22,13 +22,11 @@ describe('Dependency Resolution System', () => {
       key: 'field2',
       type: 'text',
       label: 'Field 2',
-      dependencies: [
-        {
-          field: 'field1',
-          condition: (value) => value === 'show',
-          overrides: { hidden: false }
-        }
-      ],
+      dependencies: {
+        fields: ['field1'],
+        condition: (watchedValues) => watchedValues.field1 === 'show',
+        overrides: { hidden: false }
+      },
       hidden: true, // Hidden by default
     },
     {
@@ -37,13 +35,11 @@ describe('Dependency Resolution System', () => {
       key: 'field3',
       type: 'text',
       label: 'Field 3',
-      dependencies: [
-        {
-          field: 'field1',
-          condition: (value) => value === 'disable',
-          overrides: { disabled: true }
-        }
-      ],
+      dependencies: {
+        fields: ['field1'],
+        condition: (watchedValues) => watchedValues.field1 === 'disable',
+        overrides: { disabled: true }
+      },
     },
     {
       id: 'field4',
@@ -51,13 +47,11 @@ describe('Dependency Resolution System', () => {
       key: 'field4',
       type: 'text',
       label: 'Field 4',
-      dependencies: [
-        {
-          field: 'field1',
-          condition: (value) => value === 'required',
-          overrides: { validators: { required: true } }
-        }
-      ],
+      dependencies: {
+        fields: ['field1'],
+        condition: (watchedValues) => watchedValues.field1 === 'required',
+        overrides: { validators: { required: true } }
+      },
     },
   ];
 
@@ -101,13 +95,11 @@ describe('Dependency Resolution System', () => {
         key: 'badField',
         type: 'text',
         label: 'Bad Field',
-        dependencies: [
-          {
-            field: 'nonexistent',
-            condition: () => true,
-            overrides: { hidden: true }
-          }
-        ],
+        dependencies: {
+          fields: ['nonexistent'],
+          condition: () => true,
+          overrides: { hidden: true }
+        },
       };
       
       const values: FormValues = {};
@@ -130,13 +122,11 @@ describe('Dependency Resolution System', () => {
         key: 'badCondition',
         type: 'text',
         label: 'Bad Condition Field',
-        dependencies: [
-          {
-            field: 'field1',
-            condition: () => { throw new Error('Bad condition'); },
-            overrides: { hidden: true }
-          }
-        ],
+        dependencies: {
+          fields: ['field1'],
+          condition: () => { throw new Error('Bad condition'); },
+          overrides: { hidden: true }
+        },
       };
       
       const values: FormValues = { field1: 'test' };
@@ -241,13 +231,11 @@ describe('Dependency Resolution System', () => {
           key: 'a',
           type: 'text',
           label: 'A',
-          dependencies: [
-            {
-              field: 'b',
-              condition: (value) => value === 'show',
-              overrides: { hidden: false }
-            }
-          ],
+          dependencies: {
+            fields: ['b'],
+            condition: (watchedValues) => watchedValues.b === 'show',
+            overrides: { hidden: false }
+          },
         },
         {
           id: 'b',
@@ -255,13 +243,11 @@ describe('Dependency Resolution System', () => {
           key: 'b',
           type: 'text',
           label: 'B',
-          dependencies: [
-            {
-              field: 'a',
-              condition: (value) => value === 'show',
-              overrides: { hidden: false }
-            }
-          ],
+          dependencies: {
+            fields: ['a'],
+            condition: (watchedValues) => watchedValues.a === 'show',
+            overrides: { hidden: false }
+          },
         },
       ];
 

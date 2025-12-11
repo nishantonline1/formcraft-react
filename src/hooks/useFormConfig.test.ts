@@ -178,13 +178,11 @@ describe('useFormConfig', () => {
         key: 'age',
         type: 'number',
         label: 'Age',
-        dependencies: [
-          {
-            field: 'showAge',
-            condition: (value) => value === true,
-            overrides: { hidden: false }
-          }
-        ],
+        dependencies: {
+          fields: ['showAge'],
+          condition: (watchedValues) => watchedValues.showAge === true,
+          overrides: { hidden: false }
+        },
         hidden: true
       }
     ];
@@ -313,13 +311,11 @@ describe('useFormConfig', () => {
           key: 'dependent',
           type: 'text',
           label: 'Dependent',
-          dependencies: [
-            {
-              field: 'trigger',
-              condition: (value) => value === true,
-              overrides: { hidden: false }
-            }
-          ],
+          dependencies: {
+            fields: ['trigger'],
+            condition: (watchedValues) => watchedValues.trigger === true,
+            overrides: { hidden: false }
+          },
           hidden: true
         }
       ];

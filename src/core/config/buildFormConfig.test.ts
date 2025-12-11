@@ -170,13 +170,11 @@ describe('createFormConfig', () => {
           key: 'address',
           type: 'text',
           label: 'Address',
-          dependencies: [
-            {
-              field: 'hasAddress',
-              condition: (value) => value === true,
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['hasAddress'],
+            condition: (watchedValues) => watchedValues.hasAddress === true,
+            overrides: { hidden: false },
+          },
           hidden: true,
         },
       ];
@@ -203,13 +201,11 @@ describe('createFormConfig', () => {
           key: 'editableField',
           type: 'text',
           label: 'Editable Field',
-          dependencies: [
-            {
-              field: 'enableEdit',
-              condition: (value) => value === true,
-              overrides: { disabled: false },
-            },
-          ],
+          dependencies: {
+            fields: ['enableEdit'],
+            condition: (watchedValues) => watchedValues.enableEdit === true,
+            overrides: { disabled: false },
+          },
           disabled: true,
         },
       ];
@@ -237,17 +233,15 @@ describe('createFormConfig', () => {
           type: 'text',
           label: 'Dynamic Field',
           defaultValue: 'original',
-          dependencies: [
-            {
-              field: 'mode',
-              condition: (value) => value === 'advanced',
-              overrides: {
-                label: 'Advanced Field',
-                defaultValue: 'advanced_default',
-                disabled: false
-              },
+          dependencies: {
+            fields: ['mode'],
+            condition: (watchedValues) => watchedValues.mode === 'advanced',
+            overrides: {
+              label: 'Advanced Field',
+              defaultValue: 'advanced_default',
+              disabled: false
             },
-          ],
+          },
           disabled: true,
         },
       ];
@@ -278,13 +272,11 @@ describe('createFormConfig', () => {
           key: 'dependent',
           type: 'text',
           label: 'Dependent',
-          dependencies: [
-            {
-              field: 'trigger',
-              condition: (value) => value === true,
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['trigger'],
+            condition: (watchedValues) => watchedValues.trigger === true,
+            overrides: { hidden: false },
+          },
         },
       ];
 
@@ -624,13 +616,11 @@ describe('createFormConfig', () => {
           key: 'dependent',
           type: 'text',
           label: 'Dependent',
-          dependencies: [
-            {
-              field: 'toggle',
-              condition: (value) => value === true,
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['toggle'],
+            condition: (watchedValues) => watchedValues.toggle === true,
+            overrides: { hidden: false },
+          },
         },
       ];
 
@@ -652,13 +642,11 @@ describe('createFormConfig', () => {
           key: 'field2',
           type: 'text',
           label: 'Field 2',
-          dependencies: [
-            {
-              field: 'field1',
-              condition: (value) => value !== '',
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['field1'],
+            condition: (watchedValues) => watchedValues.field1 !== '',
+            overrides: { hidden: false },
+          },
           hidden: true,
         },
       ];
@@ -719,13 +707,11 @@ describe('createFormConfig', () => {
           key: 'dependent_field',
           type: 'text',
           label: 'Dependent Field',
-          dependencies: [
-            {
-              field: 'required_field',
-              condition: (value) => value !== '',
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['required_field'],
+            condition: (watchedValues) => watchedValues.required_field !== '',
+            overrides: { hidden: false },
+          },
         },
       ];
 
@@ -755,25 +741,21 @@ describe('createFormConfig', () => {
           key: 'field2',
           type: 'text',
           label: 'Field 2',
-          dependencies: [
-            {
-              field: 'field1',
-              condition: (value) => value !== '',
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['field1'],
+            condition: (watchedValues) => watchedValues.field1 !== '',
+            overrides: { hidden: false },
+          },
         },
         {
           key: 'field3',
           type: 'text',
           label: 'Field 3',
-          dependencies: [
-            {
-              field: 'field1',
-              condition: (value) => value === 'show',
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['field1'],
+            condition: (watchedValues) => watchedValues.field1 === 'show',
+            overrides: { hidden: false },
+          },
         },
       ];
 
@@ -841,25 +823,21 @@ describe('createFormConfig', () => {
           key: 'field1',
           type: 'text',
           label: 'Field 1',
-          dependencies: [
-            {
-              field: 'field2',
-              condition: (value) => value !== '',
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['field2'],
+            condition: (watchedValues) => watchedValues.field2 !== '',
+            overrides: { hidden: false },
+          },
         },
         {
           key: 'field2',
           type: 'text',
           label: 'Field 2',
-          dependencies: [
-            {
-              field: 'field1',
-              condition: (value) => value !== '',
-              overrides: { hidden: false },
-            },
-          ],
+          dependencies: {
+            fields: ['field1'],
+            condition: (watchedValues) => watchedValues.field1 !== '',
+            overrides: { hidden: false },
+          },
         },
       ];
 

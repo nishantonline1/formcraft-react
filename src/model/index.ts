@@ -62,10 +62,10 @@ export interface FieldProps {
     loader: (values: Record<string, unknown>) => Promise<{ value: unknown; label: string }[]>;
   };
   dependencies?: {
-    field: string;
-    condition: (v: unknown) => boolean;
+    fields: string[]; // Array of field keys to watch
+    condition: (watchedValues: Record<string, unknown>, formValues: Record<string, unknown>) => boolean;
     overrides: Partial<FieldProps>;
-  }[];
+  };
   itemModel?: FormModel;              // only for type='array'
   meta?: Record<string, unknown>;     // arbitrary annotations
   flags?: Record<string, boolean>;    // Per-field feature toggles

@@ -51,7 +51,7 @@ export const fieldDependencyPlugin: FormPlugin = {
   extendConfig: (model, config) => {
     // Process dependencies and mark fields as hidden based on conditions
     const updatedFields = config.fields.map(field => {
-      if (field.dependencies && field.dependencies.length > 0) {
+      if (field.dependencies && field.dependencies.fields && field.dependencies.fields.length > 0) {
         // For each dependency, check if the condition is met
         // This is a simplified implementation - in real usage, you'd need access to current form values
         return {
@@ -60,7 +60,7 @@ export const fieldDependencyPlugin: FormPlugin = {
           meta: {
             ...field.meta,
             hasDependencies: true,
-            dependsOn: field.dependencies.map(dep => dep.field),
+            dependsOn: field.dependencies.fields,
           },
         };
       }

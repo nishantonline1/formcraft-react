@@ -67,16 +67,18 @@ export function createFormConfig(
       if (enableDependencies && field.dependencies) {
         const dependsOn: string[] = [];
 
-        field.dependencies.forEach(dep => {
-          const depPath = parentPath ? `${parentPath}.${dep.field}` : dep.field;
-          dependsOn.push(depPath);
+        if (field.dependencies.fields && Array.isArray(field.dependencies.fields)) {
+          field.dependencies.fields.forEach(fieldKey => {
+            const depPath = parentPath ? `${parentPath}.${fieldKey}` : fieldKey;
+            dependsOn.push(depPath);
 
-          // Add to dependency graph
-          if (!dependencyGraph.has(depPath)) {
-            dependencyGraph.set(depPath, []);
-          }
-          dependencyGraph.get(depPath)!.push(path);
-        });
+            // Add to dependency graph
+            if (!dependencyGraph.has(depPath)) {
+              dependencyGraph.set(depPath, []);
+            }
+            dependencyGraph.get(depPath)!.push(path);
+          });
+        }
 
         dependencies.set(path, {
           field: path,

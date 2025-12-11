@@ -323,12 +323,46 @@ The `validators` object supports the following keys:
 
 **Dependencies:**
 
-The `dependencies` array connects field properties to the state of another field.
-`{ field: string, condition: (value) => boolean, overrides: Partial<FieldProps> }`
+The `dependencies` object connects field properties to the state of other fields. The system supports both single-field and multi-field dependencies using a unified approach.
 
-- `field`: The `key` of the field to depend on.
-- `condition`: A function that receives the dependency field's value and returns `true` if the override should be applied.
-- `overrides`: An object with `FieldProps` to apply when the condition is met (e.g., `{ hidden: false, disabled: true }`).
+**Dependency Format:**
+`{ fields: string[], condition: (watchedValues, formValues) => boolean, overrides: Partial<FieldProps> }`
+
+- `fields`: An array of field `key`s to watch (use `["singleField"]` for single-field dependencies)
+- `condition`: A function that receives watched values (only the specified fields) and all form values, returning `true` if the override should be applied
+- `overrides`: An object with `FieldProps` to apply when the condition is met
+
+**Examples:**
+
+```typescript
+// Single-field dependency
+{
+  key: 'conditionalField',
+  type: 'text',
+  label: 'Conditional Field',
+  hidden: true,
+  dependencies: {
+    fields: ['showField'],
+    condition: (watchedValues) => watchedValues.showField === true,
+    overrides: { hidden: false }
+  }
+}
+
+// Multi-field dependency
+{
+  key: 'adminPanel',
+  type: 'text',
+  label: 'Admin Panel',
+  hidden: true,
+  dependencies: {
+    fields: ['userRole', 'isActive'],
+    condition: (watchedValues) => {
+      return watchedValues.userRole === 'admin' && watchedValues.isActive === true;
+    },
+    overrides: { hidden: false }
+  }
+}
+```
 
 **Dynamic Options:**
 
